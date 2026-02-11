@@ -4,9 +4,10 @@ import com.devjoliveira.appointment_management_api.domain.Professional;
 
 public record ProfessionalMinDTO(
                 String name,
-                String specialty) {
+                String specialty,
+                String email) {
 
         public ProfessionalMinDTO(Professional professional) {
-                this(professional.getName(), professional.getSpecialty());
+                this(professional.getName(), professional.getSpecialty(), professional.getEmail());
         }
 }
