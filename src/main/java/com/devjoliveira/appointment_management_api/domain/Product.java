@@ -21,10 +21,9 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(unique = true)
   private String name;
 
-  private Duration duration;
+  private Duration durationInSeconds;
 
   private BigDecimal price;
 
@@ -40,7 +39,7 @@ public class Product {
   public Product(UUID id, String name, Duration duration, BigDecimal price) {
     this.id = id;
     this.name = name;
-    this.duration = duration;
+    this.durationInSeconds = duration;
     this.price = price;
   }
 
@@ -60,12 +59,12 @@ public class Product {
     this.name = name;
   }
 
-  public Duration getDuration() {
-    return duration;
+  public Duration getDurationInSeconds() {
+    return durationInSeconds;
   }
 
-  public void setDuration(Duration duration) {
-    this.duration = duration;
+  public void setDurationInSeconds(Duration duration) {
+    this.durationInSeconds = duration;
   }
 
   public BigDecimal getPrice() {

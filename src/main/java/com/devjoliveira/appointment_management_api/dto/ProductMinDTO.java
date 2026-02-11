@@ -1,16 +1,19 @@
 package com.devjoliveira.appointment_management_api.dto;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 
 import com.devjoliveira.appointment_management_api.domain.Product;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public record ProductMinDTO(
-        String name,
-        Duration duration,
-        BigDecimal price) {
+        @NotBlank String name,
+        @NotNull @Positive Long durationInSeconds,
+        @NotNull @Positive BigDecimal price) {
 
     public ProductMinDTO(Product entity) {
-        this(entity.getName(), entity.getDuration(), entity.getPrice());
+        this(entity.getName(), entity.getDurationInSeconds().toSeconds(), entity.getPrice());
     }
 }

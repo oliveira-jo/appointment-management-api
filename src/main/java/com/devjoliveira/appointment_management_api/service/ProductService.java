@@ -2,6 +2,7 @@ package com.devjoliveira.appointment_management_api.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.time.Duration;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,8 @@ public class ProductService {
 
     Product entity = new Product();
     entity.setName(request.name());
-    entity.setDuration(request.duration());
+    entity.setDurationInSeconds(Duration.ofSeconds(request.durationInSeconds()));
+    entity.setPrice(request.price());
     entity.setPrice(request.price());
 
     var fromDB = productRepository.save(entity);
@@ -52,9 +54,9 @@ public class ProductService {
         throw new RuntimeException("Product with name " + product.getName() + " already exists");
       });
     }
-
     fromDB.setName(request.name());
-    fromDB.setDuration(request.duration());
+    fromDB.setDurationInSeconds(Duration.ofSeconds(request.durationInSeconds()));
+    fromDB.setPrice(request.price());
     fromDB.setPrice(request.price());
 
     var updateProduct = productRepository.save(fromDB);
