@@ -31,7 +31,7 @@ public class CustomerService {
         () -> new RuntimeException("Customer not found with email: " + email));
   }
 
-  @Transactional()
+  @Transactional
   public CustomerDTO save(CustomerMinDTO request) {
     customerRepository.findByEmail(request.email()).orElseThrow(
         () -> new RuntimeException("Customer with email " + request.email() + " already exists"));
@@ -45,7 +45,7 @@ public class CustomerService {
     return new CustomerDTO(fromDB);
   }
 
-  @Transactional()
+  @Transactional
   public CustomerDTO change(CustomerMinDTO request) {
     var fromDB = customerRepository.findByEmail(request.email()).orElseThrow(
         () -> new RuntimeException("Customer with email " + request.email() + " not found"));
@@ -58,7 +58,7 @@ public class CustomerService {
     return new CustomerDTO(updatedCustomer);
   }
 
-  @Transactional()
+  @Transactional
   public void delete(UUID id) {
     var fromDB = customerRepository.findById(id).orElseThrow(
         () -> new RuntimeException("Customer with id " + id + " not found"));

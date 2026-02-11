@@ -31,7 +31,7 @@ public class ProfessionalService {
         () -> new RuntimeException("Professional not found with email: " + email));
   }
 
-  @Transactional()
+  @Transactional
   public ProfessionalDTO save(ProfessionalMinDTO request) {
     professionalRepository.findByEmail(request.email()).orElseThrow(
         () -> new RuntimeException("Professional with email " + request.email() + " already exists"));
@@ -45,7 +45,7 @@ public class ProfessionalService {
     return new ProfessionalDTO(fromDB);
   }
 
-  @Transactional()
+  @Transactional
   public ProfessionalDTO change(ProfessionalMinDTO request) {
     var fromDB = professionalRepository.findByEmail(request.email()).orElseThrow(
         () -> new RuntimeException("Professional with email " + request.email() + " not found"));
@@ -58,7 +58,7 @@ public class ProfessionalService {
     return new ProfessionalDTO(updateProfessional);
   }
 
-  @Transactional()
+  @Transactional
   public void delete(UUID id) {
     var fromDB = professionalRepository.findById(id).orElseThrow(
         () -> new RuntimeException("Professional with id " + id + " not found"));
