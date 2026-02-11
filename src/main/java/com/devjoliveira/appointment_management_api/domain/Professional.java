@@ -22,6 +22,9 @@ public class Professional {
   private String name;
   private String specialty;
 
+  @Column(unique = true)
+  private String email;
+
   @Column(name = "created_at")
   private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -31,10 +34,11 @@ public class Professional {
   public Professional() {
   }
 
-  public Professional(UUID id, String name, String specialty) {
+  public Professional(UUID id, String name, String specialty, String email) {
     this.id = id;
     this.name = name;
     this.specialty = specialty;
+    this.email = email;
   }
 
   public UUID getId() {
@@ -59,6 +63,14 @@ public class Professional {
 
   public void setSpecialty(String specialty) {
     this.specialty = specialty;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public LocalDateTime getCreatedAt() {
