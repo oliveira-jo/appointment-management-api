@@ -2,10 +2,13 @@ package com.devjoliveira.appointment_management_api.dto;
 
 import com.devjoliveira.appointment_management_api.domain.Customer;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public record CustomerMinDTO(
-                String name,
-                String phone,
-                String email) {
+                @NotBlank String name,
+                @NotBlank String phone,
+                @NotBlank @Email String email) {
 
         public CustomerMinDTO(Customer customer) {
                 this(customer.getName(), customer.getPhone(), customer.getEmail());
