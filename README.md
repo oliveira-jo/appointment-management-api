@@ -7,8 +7,6 @@ Em um salão de beleza, temos:
 * Professional 
 * Service 
 * Appointment 
-* TimeSlot 
-* Payment 
 
 ## O coração do sistema é:
 

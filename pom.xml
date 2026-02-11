@@ -12,7 +12,7 @@
 	<artifactId>appointment-management-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>appointment-management-api</name>
-	<description>Demo project for Spring Boot</description>
+	<description>This project is a appointment management api</description>
 	<url/>
 	<licenses>
 		<license/>
