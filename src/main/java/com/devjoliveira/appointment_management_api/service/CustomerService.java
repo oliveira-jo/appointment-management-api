@@ -26,9 +26,9 @@ public class CustomerService {
   }
 
   @Transactional(readOnly = true)
-  public CustomerDTO findById(UUID id) {
-    return customerRepository.findById(id).map(CustomerDTO::new)
-        .orElseThrow(() -> new RuntimeException("Customer not found"));
+  public CustomerDTO findByEmail(String email) {
+    return customerRepository.findByEmail(email).map(CustomerDTO::new).orElseThrow(
+        () -> new RuntimeException("Customer not found with email: " + email));
   }
 
   @Transactional()
