@@ -21,8 +21,8 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
-  public List<ProductMinDTO> findAll() {
-    return productRepository.findAll().stream().map(ProductMinDTO::new).toList();
+  public List<ProductDTO> findAll() {
+    return productRepository.findAll().stream().map(ProductDTO::new).toList();
   }
 
   @Transactional
