@@ -38,3 +38,14 @@ spring.h2.console.path=/h2-console
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ````
+
+## Problen with autosave in import.sql - vscode 
+ 1. Mac: Cmd + Shift + P
+ 2. Preferences: Open Settings (JSON)
+ 3. Dentro do settings.json
+ 
+ ```
+ "[sql]": {
+    "editor.formatOnSave": false
+  }
+ ```
