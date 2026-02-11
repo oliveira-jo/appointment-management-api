@@ -33,8 +33,9 @@ public class ProfessionalService {
 
   @Transactional
   public ProfessionalDTO save(ProfessionalMinDTO request) {
-    professionalRepository.findByEmail(request.email()).orElseThrow(
-        () -> new RuntimeException("Professional with email " + request.email() + " already exists"));
+    professionalRepository.findByEmail(request.email()).ifPresent(professional -> {
+      throw new RuntimeException("Professional with email " + professional.getEmail() + " already exists");
+    });
 
     Professional customer = new Professional();
     customer.setName(request.name());
