@@ -46,9 +46,16 @@ public class ProfessionalService {
   }
 
   @Transactional
-  public ProfessionalDTO change(ProfessionalMinDTO request) {
-    var fromDB = professionalRepository.findByEmail(request.email()).orElseThrow(
-        () -> new RuntimeException("Professional with email " + request.email() + " not found"));
+  public ProfessionalDTO change(UUID id, ProfessionalMinDTO request) {
+
+    var fromDB = professionalRepository.findById(id).orElseThrow(
+        () -> new RuntimeException("Professional with id " + id + " not found"));
+
+    if (!fromDB.getEmail().equals(request.email())) {
+      professionalRepository.findByEmail(request.email()).ifPresent(p -> {
+        throw new RuntimeException("Professional with email " + request.email() + " already exists");
+      });
+    }
 
     fromDB.setName(request.name());
     fromDB.setSpecialty(request.specialty());
