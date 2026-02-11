@@ -21,6 +21,8 @@ public class Customer {
 
   private String name;
   private String phone;
+
+  @Column(unique = true)
   private String email;
 
   @Column(name = "created_at")
