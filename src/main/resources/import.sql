@@ -1,4 +1,4 @@
-INSERT INTO tb_professional (id, name, specialty, created_at) VALUES (RANDOM_UUID(), 'LeandroBueno', 'Corte de Cabelo', CURRENT_TIMESTAMP );
+INSERT INTO tb_professional (id, name, specialty, email, created_at) VALUES (RANDOM_UUID(), 'LeandroBueno', 'Corte de Cabelo', 'leandro@gmail.com', CURRENT_TIMESTAMP );
 
 
 INSERT INTO tb_customer (id, name, phone, email, created_at) VALUES (RANDOM_UUID(), 'Lucilene Massoco Oliveira', '(11) 99999-9999','lucilene@gmail.com',CURRENT_TIMESTAMP);
