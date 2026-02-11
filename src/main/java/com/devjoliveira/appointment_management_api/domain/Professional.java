@@ -12,16 +12,15 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_customer")
-public class Customer {
+@Table(name = "tb_professional")
+public class Professional {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   private String name;
-  private String phone;
-  private String email;
+  private String specialty;
 
   @Column(name = "created_at")
   private LocalDateTime createdAt = LocalDateTime.now();
@@ -29,14 +28,13 @@ public class Customer {
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
-  public Customer() {
+  public Professional() {
   }
 
-  public Customer(UUID id, String name, String phone, String email) {
+  public Professional(UUID id, String name, String specialty) {
     this.id = id;
     this.name = name;
-    this.phone = phone;
-    this.email = email;
+    this.specialty = specialty;
   }
 
   public UUID getId() {
@@ -55,20 +53,12 @@ public class Customer {
     this.name = name;
   }
 
-  public String getPhone() {
-    return phone;
+  public String getSpecialty() {
+    return specialty;
   }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
+  public void setSpecialty(String specialty) {
+    this.specialty = specialty;
   }
 
   public LocalDateTime getCreatedAt() {
@@ -100,7 +90,7 @@ public class Customer {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Customer other = (Customer) obj;
+    Professional other = (Professional) obj;
     if (id == null) {
       if (other.id != null)
         return false;
