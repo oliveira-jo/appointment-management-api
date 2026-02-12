@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.time.Duration;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import com.devjoliveira.appointment_management_api.domain.Product;
 import com.devjoliveira.appointment_management_api.dto.ProductDTO;
 import com.devjoliveira.appointment_management_api.dto.ProductMinDTO;
 import com.devjoliveira.appointment_management_api.repository.ProductRepository;
+import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -30,7 +32,7 @@ public class ProductService {
   public ProductDTO save(ProductMinDTO request) {
 
     productRepository.findByName(request.name()).ifPresent(product -> {
-      throw new RuntimeException("Product with name " + product.getName() + " already exists");
+      throw new DuplicateKeyException("Product with name " + product.getName() + " already exists");
     });
 
     Product entity = new Product();
@@ -47,11 +49,11 @@ public class ProductService {
   public ProductDTO change(UUID id, ProductMinDTO request) {
 
     var fromDB = productRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Product with id " + id + " not found"));
+        () -> new ResourceNotFoundException("Product with id " + id + " not found"));
 
     if (!fromDB.getName().equals(request.name())) {
       productRepository.findByName(request.name()).ifPresent(product -> {
-        throw new RuntimeException("Product with name " + product.getName() + " already exists");
+        throw new DuplicateKeyException("Product with name " + product.getName() + " already exists");
       });
     }
     fromDB.setName(request.name());
@@ -66,7 +68,7 @@ public class ProductService {
   @Transactional
   public void delete(UUID id) {
     var fromDB = productRepository.findById(id).orElseThrow(
-        () -> new RuntimeException("Product with id " + id + " not found"));
+        () -> new ResourceNotFoundException("Product with id " + id + " not found"));
 
     productRepository.delete(fromDB);
   }
