@@ -10,9 +10,9 @@ import jakarta.validation.constraints.NotBlank;
 
 public record AppointmentMinDTO(
                 UUID id,
-                @NotBlank String customerEmail,
-                @NotBlank String professionalEmail,
-                @NotBlank String productName,
+                @NotBlank(message = "Customer email is required") String customerEmail,
+                @NotBlank(message = "Professional email is required") String professionalEmail,
+                @NotBlank(message = "Product name is required") String productName,
                 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime scheduledAt,
                 String status) {
 
