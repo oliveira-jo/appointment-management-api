@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "8e32221c-1835-4e67-90c4-904872e26019",
+		"name": "Appointment Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28475730"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "All customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "Customer by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/customers/Anjali.Hermann63@hotmail.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"email\":\"{{$randomEmail}}\",\n    \"phone\":\"{{$randomPhoneNumber}}\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "Customer by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"email\":\"{{$randomEmail}}\",\n    \"phone\":\"{{$randomPhoneNumber}}\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/customers/378febc6-a0ed-4686-9a87-6e0d4deb5e3f"
+					},
+					"response": []
+				},
+				{
+					"name": "Customer by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/customers/378febc6-a0ed-4686-9a87-6e0d4deb5e3f"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Professional",
+			"item": [
+				{
+					"name": "Get All Professionals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/professionals"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/professionals/leandro@gmail.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Professional",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"specialty\":\"{{$randomJobTitle}}\",\n    \"email\":\"{{$randomEmail}}\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/professionals"
+					},
+					"response": []
+				},
+				{
+					"name": "Professional by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Leandro B. Massoco\",\n    \"specialty\":\"Corte de Cabelo e Barba e e Pintura\",\n    \"email\":\"leandro@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/professionals/12345678-1234-1234-1234-123456789012"
+					},
+					"response": []
+				},
+				{
+					"name": "Professional by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/professionals/771848bf-d970-4088-a8fb-a76faaa457d4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get All Producs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Novo Service\",\n    \"durationInSeconds\":1800,\n    \"price\":10.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Product by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/products/c0f8c7e2-7b2d-4a1c-8f3e-5c0b8f1e2a3b"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "Get All Appointments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/appointments"
+					},
+					"response": []
+				},
+				{
+					"name": "Appointment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerEmail\":\"lucilene@gmail.com\",\n    \"professionalEmail\":\"leandro@gmail.com\",\n    \"productName\":\"Corte de Cabelo Premium\",\n    \"scheduledAt\":\"13/02/2026 18:00:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/appointments"
+					},
+					"response": []
+				},
+				{
+					"name": "Product by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/products/c0f8c7e2-7b2d-4a1c-8f3e-5c0b8f1e2a3b"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
