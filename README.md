@@ -49,3 +49,15 @@ spring.jpa.properties.hibernate.format_sql=true
     "editor.formatOnSave": false
   }
  ```
+
+## Structure of Appointment Service
+ 1. Search the product (get the durationInSeconds)
+ 2. Calculet the endsAt
+ 3. Verify conflicts
+  - Conflict rules: 
+  ````
+  novoInicio < existenteFim
+  
+  novoFim > existenteInicio
+  ````
+ 4. Save
