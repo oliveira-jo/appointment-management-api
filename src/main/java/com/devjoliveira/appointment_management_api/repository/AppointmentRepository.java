@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,12 +14,19 @@ import com.devjoliveira.appointment_management_api.domain.Appointment;
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
   @Query("""
-          SELECT a FROM Appointment a
-          WHERE a.professional.id = :professionalId
-          AND a.status <> 'CANCELED'
-          AND a.scheduledAt < :end
-          AND a.endsAt > :start
+          SELECT appointment FROM Appointment appointment
+          WHERE appointment.professional.id = :professionalId
+          AND appointment.status <> 'CANCELED'
+          AND appointment.scheduledAt < :end
+          AND appointment.endsAt > :start
       """)
   List<Appointment> findConflictingAppointments(UUID professionalId, LocalDateTime start, LocalDateTime end);
+
+  List<Appointment> findByProfessionalId(UUID professionalId);
+
+  List<Appointment> findByProfessionalIdAndScheduledAtBetween(UUID professionalId, LocalDateTime start,
+      LocalDateTime end);
+
+  Page<Appointment> findAll(Pageable pageable);
 
 }
