@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import com.devjoliveira.appointment_management_api.repository.AppointmentReposit
 import com.devjoliveira.appointment_management_api.repository.CustomerRepository;
 import com.devjoliveira.appointment_management_api.repository.ProductRepository;
 import com.devjoliveira.appointment_management_api.repository.ProfessionalRepository;
+import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -93,6 +95,20 @@ public class AppointmentService {
     var fromDB = appointmentRepository.save(appointment);
 
     return new AppointmentDTO(fromDB);
+  }
+
+  @Transactional
+  public void delete(UUID id) {
+
+    var fromDB = appointmentRepository.findById(id).orElseThrow(
+        () -> new ResourceNotFoundException("Appointment with id " + id + " not found"));
+
+    try {
+      appointmentRepository.delete(fromDB);
+    } catch (DataIntegrityViolationException e) {
+      throw new DataBaseException("Fail in reference integrity");
+    }
+
   }
 
 }

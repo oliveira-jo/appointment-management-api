@@ -3,6 +3,7 @@ package com.devjoliveira.appointment_management_api.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import com.devjoliveira.appointment_management_api.domain.Customer;
 import com.devjoliveira.appointment_management_api.dto.CustomerDTO;
 import com.devjoliveira.appointment_management_api.dto.CustomerMinDTO;
 import com.devjoliveira.appointment_management_api.repository.CustomerRepository;
+import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -73,7 +75,12 @@ public class CustomerService {
     var fromDB = customerRepository.findById(id).orElseThrow(
         () -> new ResourceNotFoundException("Customer with id " + id + " not found"));
 
-    customerRepository.delete(fromDB);
+    try {
+      customerRepository.delete(fromDB);
+    } catch (DataIntegrityViolationException e) {
+      throw new DataBaseException("Fail in reference integrity");
+    }
+
   }
 
 }

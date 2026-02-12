@@ -3,6 +3,7 @@ package com.devjoliveira.appointment_management_api.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import com.devjoliveira.appointment_management_api.domain.Professional;
 import com.devjoliveira.appointment_management_api.dto.ProfessionalDTO;
 import com.devjoliveira.appointment_management_api.dto.ProfessionalMinDTO;
 import com.devjoliveira.appointment_management_api.repository.ProfessionalRepository;
+import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -70,10 +72,16 @@ public class ProfessionalService {
 
   @Transactional
   public void delete(UUID id) {
+
     var fromDB = professionalRepository.findById(id).orElseThrow(
         () -> new ResourceNotFoundException("Professional with id " + id + " not found"));
 
-    professionalRepository.delete(fromDB);
+    try {
+      professionalRepository.delete(fromDB);
+    } catch (DataIntegrityViolationException e) {
+      throw new DataBaseException("Fail in reference integrity");
+    }
+
   }
 
 }

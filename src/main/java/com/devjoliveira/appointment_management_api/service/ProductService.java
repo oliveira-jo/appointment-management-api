@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.time.Duration;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import com.devjoliveira.appointment_management_api.domain.Product;
 import com.devjoliveira.appointment_management_api.dto.ProductDTO;
 import com.devjoliveira.appointment_management_api.dto.ProductMinDTO;
 import com.devjoliveira.appointment_management_api.repository.ProductRepository;
+import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -67,10 +69,16 @@ public class ProductService {
 
   @Transactional
   public void delete(UUID id) {
+
     var fromDB = productRepository.findById(id).orElseThrow(
         () -> new ResourceNotFoundException("Product with id " + id + " not found"));
 
-    productRepository.delete(fromDB);
+    try {
+      productRepository.delete(fromDB);
+    } catch (DataIntegrityViolationException e) {
+      throw new DataBaseException("Fail in reference integrity");
+    }
+
   }
 
 }
