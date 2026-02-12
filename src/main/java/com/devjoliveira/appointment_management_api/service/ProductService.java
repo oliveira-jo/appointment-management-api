@@ -13,7 +13,7 @@ import com.devjoliveira.appointment_management_api.domain.Product;
 import com.devjoliveira.appointment_management_api.dto.ProductDTO;
 import com.devjoliveira.appointment_management_api.dto.ProductMinDTO;
 import com.devjoliveira.appointment_management_api.repository.ProductRepository;
-import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
+import com.devjoliveira.appointment_management_api.service.exceptions.DatabaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -76,7 +76,7 @@ public class ProductService {
     try {
       productRepository.delete(fromDB);
     } catch (DataIntegrityViolationException e) {
-      throw new DataBaseException("Fail in reference integrity");
+      throw new DatabaseException("Fail in reference integrity");
     }
 
   }

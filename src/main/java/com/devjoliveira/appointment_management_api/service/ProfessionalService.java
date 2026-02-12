@@ -12,7 +12,7 @@ import com.devjoliveira.appointment_management_api.domain.Professional;
 import com.devjoliveira.appointment_management_api.dto.ProfessionalDTO;
 import com.devjoliveira.appointment_management_api.dto.ProfessionalMinDTO;
 import com.devjoliveira.appointment_management_api.repository.ProfessionalRepository;
-import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
+import com.devjoliveira.appointment_management_api.service.exceptions.DatabaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -79,7 +79,7 @@ public class ProfessionalService {
     try {
       professionalRepository.delete(fromDB);
     } catch (DataIntegrityViolationException e) {
-      throw new DataBaseException("Fail in reference integrity");
+      throw new DatabaseException("Fail in reference integrity");
     }
 
   }

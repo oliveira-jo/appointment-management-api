@@ -12,7 +12,7 @@ import com.devjoliveira.appointment_management_api.domain.Customer;
 import com.devjoliveira.appointment_management_api.dto.CustomerDTO;
 import com.devjoliveira.appointment_management_api.dto.CustomerMinDTO;
 import com.devjoliveira.appointment_management_api.repository.CustomerRepository;
-import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
+import com.devjoliveira.appointment_management_api.service.exceptions.DatabaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -78,7 +78,7 @@ public class CustomerService {
     try {
       customerRepository.delete(fromDB);
     } catch (DataIntegrityViolationException e) {
-      throw new DataBaseException("Fail in reference integrity");
+      throw new DatabaseException("Fail in reference integrity");
     }
 
   }

@@ -20,7 +20,7 @@ import com.devjoliveira.appointment_management_api.repository.AppointmentReposit
 import com.devjoliveira.appointment_management_api.repository.CustomerRepository;
 import com.devjoliveira.appointment_management_api.repository.ProductRepository;
 import com.devjoliveira.appointment_management_api.repository.ProfessionalRepository;
-import com.devjoliveira.appointment_management_api.service.exceptions.DataBaseException;
+import com.devjoliveira.appointment_management_api.service.exceptions.DatabaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -106,7 +106,7 @@ public class AppointmentService {
     try {
       appointmentRepository.delete(fromDB);
     } catch (DataIntegrityViolationException e) {
-      throw new DataBaseException("Fail in reference integrity");
+      throw new DatabaseException("Fail in reference integrity");
     }
 
   }
