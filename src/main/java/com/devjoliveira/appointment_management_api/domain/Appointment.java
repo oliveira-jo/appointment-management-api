@@ -38,6 +38,8 @@ public class Appointment {
   @Enumerated(EnumType.STRING)
   private AppointmentStatus status;
 
+  private LocalDateTime endsAt;
+
   private String notes;
 
   @Column(name = "created_at")
@@ -50,12 +52,13 @@ public class Appointment {
   }
 
   public Appointment(UUID id, Customer customer, Professional professional, Product product, LocalDateTime scheduledAt,
-      AppointmentStatus status, String notes) {
+      AppointmentStatus status, LocalDateTime endsAt, String notes) {
     this.id = id;
     this.customer = customer;
     this.professional = professional;
     this.product = product;
     this.scheduledAt = scheduledAt;
+    this.endsAt = endsAt;
     this.status = status;
     this.notes = notes;
   }
@@ -122,6 +125,14 @@ public class Appointment {
 
   public LocalDateTime getUpdatedAt() {
     return updatedAt;
+  }
+
+  public LocalDateTime getEndsAt() {
+    return endsAt;
+  }
+
+  public void setEndsAt(LocalDateTime endsAt) {
+    this.endsAt = endsAt;
   }
 
   @PreUpdate
