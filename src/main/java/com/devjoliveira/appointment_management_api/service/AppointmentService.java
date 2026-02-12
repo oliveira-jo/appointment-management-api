@@ -64,19 +64,23 @@ public class AppointmentService {
   }
 
   @Transactional
-  public AppointmentDTO createAppointment(UUID customerId, UUID professionalId, UUID productId,
+  public AppointmentDTO createAppointment(String customerId, String professionalId, String productId,
       LocalDateTime scheduledAt) {
 
-    Customer customer = customerRepository.findById(customerId).orElseThrow(
-        () -> new ResourceNotFoundException("Customer not found with id: " + customerId));
-    Professional professional = professionalRepository.findById(professionalId).orElseThrow(
-        () -> new ResourceNotFoundException("Professional not found with id: " + professionalId));
-    Product product = productRepository.findById(productId).orElseThrow(
-        () -> new ResourceNotFoundException("Product not found with id: " + productId));
+    var customerUUID = UUID.fromString(customerId);
+    var professionalUUID = UUID.fromString(professionalId);
+    var productUUID = UUID.fromString(productId);
+
+    Customer customer = customerRepository.findById(customerUUID).orElseThrow(
+        () -> new ResourceNotFoundException("Customer not found with id: " + customerUUID));
+    Professional professional = professionalRepository.findById(professionalUUID).orElseThrow(
+        () -> new ResourceNotFoundException("Professional not found with id: " + professionalUUID));
+    Product product = productRepository.findById(productUUID).orElseThrow(
+        () -> new ResourceNotFoundException("Product not found with id: " + productUUID));
 
     LocalDateTime endsAt = scheduledAt.plusSeconds(product.getDurationInSeconds().toSeconds());
 
-    List<Appointment> conflicts = appointmentRepository.findConflictingAppointments(professionalId, scheduledAt,
+    List<Appointment> conflicts = appointmentRepository.findConflictingAppointments(professionalUUID, scheduledAt,
         endsAt);
 
     if (!conflicts.isEmpty()) {
