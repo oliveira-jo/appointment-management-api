@@ -1,6 +1,5 @@
 package com.devjoliveira.appointment_management_api.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -36,12 +35,8 @@ public class Appointment {
 
   private LocalDateTime scheduledAt;
 
-  private LocalDateTime endsAt;
-
   @Enumerated(EnumType.STRING)
   private AppointmentStatus status;
-
-  private BigDecimal price;
 
   private String notes;
 
@@ -55,15 +50,13 @@ public class Appointment {
   }
 
   public Appointment(UUID id, Customer customer, Professional professional, Product product, LocalDateTime scheduledAt,
-      LocalDateTime endsAt, AppointmentStatus status, BigDecimal price, String notes) {
+      AppointmentStatus status, String notes) {
     this.id = id;
     this.customer = customer;
     this.professional = professional;
     this.product = product;
     this.scheduledAt = scheduledAt;
-    this.endsAt = endsAt;
     this.status = status;
-    this.price = price;
     this.notes = notes;
   }
 
@@ -107,28 +100,12 @@ public class Appointment {
     this.scheduledAt = scheduledAt;
   }
 
-  public LocalDateTime getEndsAt() {
-    return endsAt;
-  }
-
-  public void setEndsAt(LocalDateTime endsAt) {
-    this.endsAt = endsAt;
-  }
-
   public AppointmentStatus getStatus() {
     return status;
   }
 
   public void setStatus(AppointmentStatus status) {
     this.status = status;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public void setPrice(BigDecimal price) {
-    this.price = price;
   }
 
   public String getNotes() {
