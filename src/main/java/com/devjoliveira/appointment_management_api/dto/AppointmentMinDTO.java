@@ -10,16 +10,16 @@ import jakarta.validation.constraints.NotBlank;
 
 public record AppointmentMinDTO(
                 UUID id,
-                @NotBlank String customerUUID,
-                @NotBlank String professionalUUID,
-                @NotBlank String productUUID,
+                @NotBlank String customerEmail,
+                @NotBlank String professionalEmail,
+                @NotBlank String productName,
                 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime scheduledAt,
                 String status) {
 
         public AppointmentMinDTO(Appointment entity) {
-                this(entity.getId(), entity.getCustomer().getId().toString(),
-                                entity.getProfessional().getId().toString(),
-                                entity.getProduct().getId().toString(), entity.getScheduledAt(),
+                this(entity.getId(), entity.getCustomer().getEmail(),
+                                entity.getProfessional().getEmail(),
+                                entity.getProduct().getName(), entity.getScheduledAt(),
                                 entity.getStatus().toString());
         }
 

@@ -15,7 +15,6 @@ import com.devjoliveira.appointment_management_api.domain.Customer;
 import com.devjoliveira.appointment_management_api.domain.Product;
 import com.devjoliveira.appointment_management_api.domain.Professional;
 import com.devjoliveira.appointment_management_api.dto.AppointmentDTO;
-import com.devjoliveira.appointment_management_api.dto.AppointmentMinDTO;
 import com.devjoliveira.appointment_management_api.enums.AppointmentStatus;
 import com.devjoliveira.appointment_management_api.repository.AppointmentRepository;
 import com.devjoliveira.appointment_management_api.repository.CustomerRepository;
@@ -49,7 +48,8 @@ public class AppointmentService {
   }
 
   @Transactional(readOnly = true)
-  public List<AppointmentDTO> findByProfessionalIdAndScheduledAtBetween(UUID professionalId, LocalDateTime start,
+  public List<AppointmentDTO> findByProfessionalIdAndScheduledAtBetween(UUID professionalId,
+      LocalDateTime start,
       LocalDateTime end) {
     List<Appointment> appointments = appointmentRepository.findByProfessionalIdAndScheduledAtBetween(professionalId,
         start, end);
@@ -57,30 +57,26 @@ public class AppointmentService {
   }
 
   @Transactional(readOnly = true)
-  public Page<AppointmentMinDTO> findAllPaged(Pageable pageable) {
+  public Page<AppointmentDTO> findAllPaged(Pageable pageable) {
 
     Page<Appointment> appointments = appointmentRepository.findAll(pageable);
-    return appointments.map(AppointmentMinDTO::new);
+    return appointments.map(AppointmentDTO::new);
   }
 
   @Transactional
-  public AppointmentDTO createAppointment(String customerId, String professionalId, String productId,
+  public AppointmentDTO createAppointment(String customerEmail, String professionalEmail, String productName,
       LocalDateTime scheduledAt) {
 
-    var customerUUID = UUID.fromString(customerId);
-    var professionalUUID = UUID.fromString(professionalId);
-    var productUUID = UUID.fromString(productId);
-
-    Customer customer = customerRepository.findById(customerUUID).orElseThrow(
-        () -> new ResourceNotFoundException("Customer not found with id: " + customerUUID));
-    Professional professional = professionalRepository.findById(professionalUUID).orElseThrow(
-        () -> new ResourceNotFoundException("Professional not found with id: " + professionalUUID));
-    Product product = productRepository.findById(productUUID).orElseThrow(
-        () -> new ResourceNotFoundException("Product not found with id: " + productUUID));
+    Customer customer = customerRepository.findByEmail(customerEmail).orElseThrow(
+        () -> new ResourceNotFoundException("Customer not found with email: " + customerEmail));
+    Professional professional = professionalRepository.findByEmail(professionalEmail).orElseThrow(
+        () -> new ResourceNotFoundException("Professional not found with email: " + professionalEmail));
+    Product product = productRepository.findByName(productName).orElseThrow(
+        () -> new ResourceNotFoundException("Product not found with name: " + productName));
 
     LocalDateTime endsAt = scheduledAt.plusSeconds(product.getDurationInSeconds().toSeconds());
 
-    List<Appointment> conflicts = appointmentRepository.findConflictingAppointments(professionalUUID, scheduledAt,
+    List<Appointment> conflicts = appointmentRepository.findConflictingAppointments(professional.getId(), scheduledAt,
         endsAt);
 
     if (!conflicts.isEmpty()) {

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devjoliveira.appointment_management_api.dto.AppointmentDTO;
 import com.devjoliveira.appointment_management_api.dto.AppointmentMinDTO;
+import com.devjoliveira.appointment_management_api.dto.AppointmentDTO;
 import com.devjoliveira.appointment_management_api.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -32,16 +32,16 @@ public class AppointmentController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<AppointmentMinDTO>> findAll(Pageable pageable) {
+  public ResponseEntity<Page<AppointmentDTO>> findAll(Pageable pageable) {
     return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
   }
 
   @PostMapping
   public ResponseEntity<AppointmentDTO> save(@RequestBody @Valid AppointmentMinDTO request) {
 
-    AppointmentDTO appointmentDTO = appointmentService.createAppointment(request.customerUUID(),
-        request.professionalUUID(),
-        request.productUUID(), request.scheduledAt());
+    AppointmentDTO appointmentDTO = appointmentService.createAppointment(request.customerEmail(),
+        request.professionalEmail(),
+        request.productName(), request.scheduledAt());
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(appointmentDTO.id()).toUri();
