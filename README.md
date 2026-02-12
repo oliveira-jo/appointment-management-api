@@ -1,20 +1,51 @@
+# HELPDESK PROJECT
 
-## Visão de Domínio 
+> Status: Developing
 
-In a beauty salon we have the entities
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Vscode](https://img.shields.io/badge/Vscode-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37.svg?style=for-the-badge&logo=Postman&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white) 
 
+
+## Objective
+The main objective of this project is the development an API to provide a system of Appointments management. 
+
+
+
+## Domain
+Appointment management 
 * Customer 
 * Professional 
 * Service 
 * Appointment 
 
-## The mean of system is:
 
+## The mean of system is:
 * Appointment
 
-## Configuration files
 
-application.properties
+## Project Base in MVC
++ CONTROLLERS (DTO's)
++ SERVICES (DTO's)
++ REPOSITORIES (Entities)
++ MODELS (Entities)
++ INFRA
+
+
+## Technologies Used
+* Java
+* Spring Boot Starter Web: Servidor Tomcat
+* Spring Boot Devtools: Hot Heload 
+* Spring Boot Starter Data JPA: Persistence
+* H2
+
+
+## Configuring the Database
+### In the file Application.properties
+
+1. application.properties
 
 ````
 spring.profiles.active=test
@@ -22,7 +53,7 @@ spring.jpa.open-in-view=false
 
 ````
 
-application-test.properties
+2. application-test.properties
 
 ````
 # H2 connection
@@ -39,7 +70,8 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ````
 
-## Problen with autosave in import.sql - vscode 
+
+## Problen with autosave in import.sql - vscode Solve with 
  1. Mac: Cmd + Shift + P
  2. Preferences: Open Settings (JSON)
  3. Dentro do settings.json
@@ -61,3 +93,4 @@ spring.jpa.properties.hibernate.format_sql=true
   novoFim > existenteInicio
   ````
  4. Save
+ 
