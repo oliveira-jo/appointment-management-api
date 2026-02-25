@@ -44,7 +44,7 @@ public class AppointmentService {
   }
 
   @Transactional(readOnly = true)
-  public List<AppointmentDTO> findAppointmentsForProfessional(UUID professionalId) {
+  public List<AppointmentDTO> findAppointmentsByProfessionalId(UUID professionalId) {
     List<Appointment> appointments = appointmentRepository.findByProfessionalId(professionalId);
     return appointments.stream().map(AppointmentDTO::new).toList();
   }

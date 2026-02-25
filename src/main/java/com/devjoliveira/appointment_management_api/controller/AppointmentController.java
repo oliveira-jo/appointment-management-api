@@ -40,6 +40,11 @@ public class AppointmentController {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByDay(day));
   }
 
+  @GetMapping("/professional/{id}")
+  public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalId(@PathVariable UUID id) {
+    return ResponseEntity.ok().body(appointmentService.findAppointmentsByProfessionalId(id));
+  }
+
   @GetMapping
   public ResponseEntity<Page<AppointmentDTO>> findAll(Pageable pageable) {
     return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
