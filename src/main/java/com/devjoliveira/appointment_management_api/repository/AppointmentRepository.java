@@ -27,6 +27,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
   List<Appointment> findByProfessionalIdAndScheduledAtBetween(UUID professionalId, LocalDateTime start,
       LocalDateTime end);
 
+  List<Appointment> findByScheduledAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
+
   Page<Appointment> findAll(Pageable pageable);
 
 }

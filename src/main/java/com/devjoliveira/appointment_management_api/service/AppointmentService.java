@@ -1,6 +1,8 @@
 package com.devjoliveira.appointment_management_api.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +56,17 @@ public class AppointmentService {
     List<Appointment> appointments = appointmentRepository.findByProfessionalIdAndScheduledAtBetween(professionalId,
         start, end);
     return appointments.stream().map(AppointmentDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<AppointmentDTO> findAppointmentsByDay(LocalDate day) {
+
+    LocalDateTime startOfDay = day.atStartOfDay();
+    LocalDateTime endOfDay = day.atTime(LocalTime.MAX);
+
+    return appointmentRepository.findByScheduledAtBetween(startOfDay, endOfDay).stream().map(AppointmentDTO::new)
+        .toList();
+
   }
 
   @Transactional(readOnly = true)

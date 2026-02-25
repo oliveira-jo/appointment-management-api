@@ -1,10 +1,13 @@
 package com.devjoliveira.appointment_management_api.controller;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devjoliveira.appointment_management_api.dto.AppointmentMinDTO;
 import com.devjoliveira.appointment_management_api.dto.AppointmentDTO;
+import com.devjoliveira.appointment_management_api.dto.AppointmentMinDTO;
 import com.devjoliveira.appointment_management_api.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -29,6 +32,12 @@ public class AppointmentController {
 
   public AppointmentController(AppointmentService appointmentService) {
     this.appointmentService = appointmentService;
+  }
+
+  @GetMapping("/{day}")
+  public ResponseEntity<List<AppointmentDTO>> findAppointmentsByDay(
+      @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
+    return ResponseEntity.ok().body(appointmentService.findAppointmentsByDay(day));
   }
 
   @GetMapping
