@@ -239,6 +239,15 @@
 						"url": "http://localhost:8080/products/c0f8c7e2-7b2d-4a1c-8f3e-5c0b8f1e2a3b"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Appointments by professional id and day",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/appointments/professional/12345678-1234-1234-1234-123456789012/day/10-03-2026"
+					},
+					"response": []
 				}
 			]
 		}

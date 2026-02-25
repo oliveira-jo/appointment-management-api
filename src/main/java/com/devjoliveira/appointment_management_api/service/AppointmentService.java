@@ -50,11 +50,15 @@ public class AppointmentService {
   }
 
   @Transactional(readOnly = true)
-  public List<AppointmentDTO> findByProfessionalIdAndScheduledAtBetween(UUID professionalId,
-      LocalDateTime start,
-      LocalDateTime end) {
-    List<Appointment> appointments = appointmentRepository.findByProfessionalIdAndScheduledAtBetween(professionalId,
-        start, end);
+  public List<AppointmentDTO> findAppointmentsByProfessionalIdAndDay(UUID professionalId,
+      LocalDate day) {
+
+    LocalDateTime startOfDay = day.atStartOfDay();
+    LocalDateTime endOfDay = day.atTime(LocalTime.MAX);
+
+    List<Appointment> appointments = appointmentRepository
+        .findByProfessionalIdAndScheduledAtBetween(professionalId, startOfDay, endOfDay);
+
     return appointments.stream().map(AppointmentDTO::new).toList();
   }
 

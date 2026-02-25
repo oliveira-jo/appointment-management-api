@@ -34,7 +34,7 @@ public class AppointmentController {
     this.appointmentService = appointmentService;
   }
 
-  @GetMapping("/{day}")
+  @GetMapping("/day/{day}")
   public ResponseEntity<List<AppointmentDTO>> findAppointmentsByDay(
       @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByDay(day));
@@ -43,6 +43,12 @@ public class AppointmentController {
   @GetMapping("/professional/{id}")
   public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalId(@PathVariable UUID id) {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByProfessionalId(id));
+  }
+
+  @GetMapping("/professional/{id}/day/{day}")
+  public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalIdAndDay(@PathVariable UUID id,
+      @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
+    return ResponseEntity.ok().body(appointmentService.findAppointmentsByProfessionalIdAndDay(id, day));
   }
 
   @GetMapping
