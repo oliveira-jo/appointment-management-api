@@ -161,7 +161,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"Novo Service\",\n    \"durationInSeconds\":1800,\n    \"price\":10.00\n}",
+							"raw": "{\n    \"name\":\"Pintura de Cabelo\",\n    \"durationInSeconds\":3600,\n    \"price\":90.00\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -192,6 +192,24 @@
 						"method": "GET",
 						"header": [],
 						"url": "http://localhost:8080/appointments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Appointments by day",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/appointments/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Appointments by professional id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/appointments/professional/12345678-1234-1234-1234-123456789012"
 					},
 					"response": []
 				},
