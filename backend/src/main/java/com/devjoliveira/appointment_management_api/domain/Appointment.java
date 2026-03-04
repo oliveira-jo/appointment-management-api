@@ -25,10 +25,10 @@ public class Appointment {
   private UUID id;
 
   @ManyToOne
-  private Customer customer;
+  private User customer;
 
   @ManyToOne
-  private Professional professional;
+  private User professional;
 
   @ManyToOne
   private Product product;
@@ -51,7 +51,7 @@ public class Appointment {
   public Appointment() {
   }
 
-  public Appointment(UUID id, Customer customer, Professional professional, Product product, LocalDateTime scheduledAt,
+  public Appointment(UUID id, User customer, User professional, Product product, LocalDateTime scheduledAt,
       AppointmentStatus status, LocalDateTime endsAt, String notes) {
     this.id = id;
     this.customer = customer;
@@ -71,19 +71,19 @@ public class Appointment {
     this.id = id;
   }
 
-  public Customer getCustomer() {
+  public User getCustomer() {
     return customer;
   }
 
-  public void setCustomer(Customer customer) {
+  public void setCustomer(User customer) {
     this.customer = customer;
   }
 
-  public Professional getProfessional() {
+  public User getProfessional() {
     return professional;
   }
 
-  public void setProfessional(Professional professional) {
+  public void setProfessional(User professional) {
     this.professional = professional;
   }
 

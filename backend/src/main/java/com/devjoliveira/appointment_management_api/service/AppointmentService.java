@@ -13,15 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devjoliveira.appointment_management_api.domain.Appointment;
-import com.devjoliveira.appointment_management_api.domain.Customer;
 import com.devjoliveira.appointment_management_api.domain.Product;
-import com.devjoliveira.appointment_management_api.domain.Professional;
+import com.devjoliveira.appointment_management_api.domain.User;
 import com.devjoliveira.appointment_management_api.dto.AppointmentDTO;
 import com.devjoliveira.appointment_management_api.enums.AppointmentStatus;
 import com.devjoliveira.appointment_management_api.repository.AppointmentRepository;
-import com.devjoliveira.appointment_management_api.repository.CustomerRepository;
 import com.devjoliveira.appointment_management_api.repository.ProductRepository;
-import com.devjoliveira.appointment_management_api.repository.ProfessionalRepository;
+import com.devjoliveira.appointment_management_api.repository.UserRepository;
 import com.devjoliveira.appointment_management_api.service.exceptions.DatabaseException;
 import com.devjoliveira.appointment_management_api.service.exceptions.ResourceNotFoundException;
 
@@ -30,17 +28,14 @@ public class AppointmentService {
 
   private final AppointmentRepository appointmentRepository;
   private final ProductRepository productRepository;
-  private final ProfessionalRepository professionalRepository;
-  private final CustomerRepository customerRepository;
+  private final UserRepository userRepository;
 
   public AppointmentService(AppointmentRepository appointmentRepository,
       ProductRepository productRepository,
-      ProfessionalRepository professionalRepository,
-      CustomerRepository customerRepository) {
+      UserRepository userRepository) {
     this.appointmentRepository = appointmentRepository;
     this.productRepository = productRepository;
-    this.professionalRepository = professionalRepository;
-    this.customerRepository = customerRepository;
+    this.userRepository = userRepository;
   }
 
   @Transactional(readOnly = true)
@@ -84,9 +79,9 @@ public class AppointmentService {
   public AppointmentDTO createAppointment(String customerEmail, String professionalEmail, String productName,
       LocalDateTime scheduledAt) {
 
-    Customer customer = customerRepository.findByEmail(customerEmail).orElseThrow(
+    User customer = userRepository.findByEmail(customerEmail).orElseThrow(
         () -> new ResourceNotFoundException("Customer not found with email: " + customerEmail));
-    Professional professional = professionalRepository.findByEmail(professionalEmail).orElseThrow(
+    User professional = userRepository.findByEmail(professionalEmail).orElseThrow(
         () -> new ResourceNotFoundException("Professional not found with email: " + professionalEmail));
     Product product = productRepository.findByName(productName).orElseThrow(
         () -> new ResourceNotFoundException("Product not found with name: " + productName));

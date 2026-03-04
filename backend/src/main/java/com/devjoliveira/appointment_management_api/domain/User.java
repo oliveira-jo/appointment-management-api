@@ -3,8 +3,12 @@ package com.devjoliveira.appointment_management_api.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.devjoliveira.appointment_management_api.enums.UserRole;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +29,12 @@ public class User {
   @Column(unique = true)
   private String email;
 
+  private String password;
+
+  @Column(name = "role", nullable = false)
+  @Enumerated(EnumType.STRING)
+  private UserRole role;
+
   @Column(name = "created_at")
   private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -34,11 +44,12 @@ public class User {
   public User() {
   }
 
-  public User(UUID id, String name, String phone, String email) {
+  public User(UUID id, String name, String phone, String email, UserRole role) {
     this.id = id;
     this.name = name;
     this.phone = phone;
     this.email = email;
+    this.role = role;
   }
 
   public UUID getId() {
@@ -81,6 +92,30 @@ public class User {
     return updatedAt;
   }
 
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public UserRole getRole() {
+    return role;
+  }
+
+  public void setRole(UserRole role) {
+    this.role = role;
+  }
+
   @PreUpdate
   public void preUpdate() {
     this.updatedAt = LocalDateTime.now();
@@ -102,7 +137,7 @@ public class User {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Customer other = (Customer) obj;
+    User other = (User) obj;
     if (id == null) {
       if (other.id != null)
         return false;

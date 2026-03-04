@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devjoliveira.appointment_management_api.dto.ProfessionalDTO;
-import com.devjoliveira.appointment_management_api.dto.ProfessionalMinDTO;
-import com.devjoliveira.appointment_management_api.service.ProfessionalService;
+import com.devjoliveira.appointment_management_api.dto.UserDTO;
+import com.devjoliveira.appointment_management_api.dto.UserMinDTO;
+import com.devjoliveira.appointment_management_api.enums.UserRole;
+import com.devjoliveira.appointment_management_api.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -25,26 +26,26 @@ import jakarta.validation.Valid;
 @RequestMapping("/professionals")
 public class ProfessionalController {
 
-  private final ProfessionalService professionalService;
+  private final UserService userService;
 
-  public ProfessionalController(ProfessionalService professionalService) {
-    this.professionalService = professionalService;
+  public ProfessionalController(UserService userService) {
+    this.userService = userService;
   }
 
   @GetMapping
-  public ResponseEntity<List<ProfessionalMinDTO>> findAll() {
-    return ResponseEntity.ok().body(professionalService.findAll());
+  public ResponseEntity<List<UserMinDTO>> findAll() {
+    return ResponseEntity.ok().body(userService.findAll());
   }
 
   @GetMapping("/{email}")
-  public ResponseEntity<ProfessionalDTO> findByEmail(@PathVariable String email) {
-    return ResponseEntity.ok().body(professionalService.findByEmail(email));
+  public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
+    return ResponseEntity.ok().body(userService.findByEmail(email));
   }
 
   @PostMapping
-  public ResponseEntity<ProfessionalDTO> save(@RequestBody @Valid ProfessionalMinDTO request) {
+  public ResponseEntity<UserDTO> save(@RequestBody @Valid UserMinDTO request) {
 
-    ProfessionalDTO professionalDTO = professionalService.save(request);
+    UserDTO professionalDTO = userService.save(request, UserRole.ROLE_PROFESSIONAL);
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(professionalDTO.id()).toUri();
@@ -54,13 +55,13 @@ public class ProfessionalController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ProfessionalDTO> change(@PathVariable UUID id, @RequestBody @Valid ProfessionalMinDTO request) {
-    return ResponseEntity.ok().body(professionalService.change(id, request));
+  public ResponseEntity<UserDTO> change(@PathVariable UUID id, @RequestBody @Valid UserMinDTO request) {
+    return ResponseEntity.ok().body(userService.change(id, request));
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
-    professionalService.delete(id);
+    userService.delete(id);
     return ResponseEntity.noContent().build();
   }
 

@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devjoliveira.appointment_management_api.dto.CustomerDTO;
-import com.devjoliveira.appointment_management_api.dto.CustomerMinDTO;
-import com.devjoliveira.appointment_management_api.service.CustomerService;
+import com.devjoliveira.appointment_management_api.dto.UserDTO;
+import com.devjoliveira.appointment_management_api.dto.UserMinDTO;
+import com.devjoliveira.appointment_management_api.enums.UserRole;
+import com.devjoliveira.appointment_management_api.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -25,26 +26,26 @@ import jakarta.validation.Valid;
 @RequestMapping("/customers")
 public class CustomerController {
 
-  private final CustomerService customerService;
+  private final UserService customerService;
 
-  public CustomerController(CustomerService customerService) {
+  public CustomerController(UserService customerService) {
     this.customerService = customerService;
   }
 
   @GetMapping
-  public ResponseEntity<List<CustomerMinDTO>> findAll() {
+  public ResponseEntity<List<UserMinDTO>> findAll() {
     return ResponseEntity.ok().body(customerService.findAll());
   }
 
   @GetMapping("/{email}")
-  public ResponseEntity<CustomerDTO> findByEmail(@PathVariable String email) {
+  public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
     return ResponseEntity.ok().body(customerService.findByEmail(email));
   }
 
   @PostMapping
-  public ResponseEntity<CustomerDTO> save(@RequestBody @Valid CustomerMinDTO request) {
+  public ResponseEntity<UserDTO> save(@RequestBody @Valid UserMinDTO request) {
 
-    CustomerDTO customerDTO = customerService.save(request);
+    UserDTO customerDTO = customerService.save(request, UserRole.ROLE_CUSTOMER);
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(customerDTO.id()).toUri();
@@ -54,7 +55,7 @@ public class CustomerController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<CustomerDTO> change(@PathVariable UUID id, @RequestBody @Valid CustomerMinDTO request) {
+  public ResponseEntity<UserDTO> change(@PathVariable UUID id, @RequestBody @Valid UserMinDTO request) {
     return ResponseEntity.ok().body(customerService.change(id, request));
   }
 
