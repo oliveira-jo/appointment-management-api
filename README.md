@@ -13,7 +13,6 @@
 The main objective of this project is the development an API to provide a system of Appointments management. 
 
 
-
 ## Domain
 Appointment management 
 * Customer 
@@ -93,4 +92,9 @@ spring.jpa.properties.hibernate.format_sql=true
   novoFim > existenteInicio
   ````
  4. Save
+
+ ## Features to be implanted 
+ - spring security and jwt token
+
+
  

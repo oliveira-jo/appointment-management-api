@@ -91,8 +91,11 @@ public class AppointmentService {
     Product product = productRepository.findByName(productName).orElseThrow(
         () -> new ResourceNotFoundException("Product not found with name: " + productName));
 
+    // calculate the end time of the appointment based on the product duration
     LocalDateTime endsAt = scheduledAt.plusSeconds(product.getDurationInSeconds().toSeconds());
 
+    // verify if the professional is available at the requested time / if there are
+    // any conflicting appointments
     List<Appointment> conflicts = appointmentRepository.findConflictingAppointments(professional.getId(), scheduledAt,
         endsAt);
 
@@ -101,6 +104,7 @@ public class AppointmentService {
           "Professional: " + professional.getName() + " is not available at the requested time: " + scheduledAt);
     }
 
+    // create and save the appointment
     Appointment appointment = new Appointment();
     appointment.setCustomer(customer);
     appointment.setProfessional(professional);
