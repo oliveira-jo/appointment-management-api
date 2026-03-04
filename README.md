@@ -24,6 +24,10 @@ Appointment management
 ## The mean of system is:
 * Appointment
 
+## Monorepo
+* Backend - Java | Spring 
+* Frontend - Angular
+
 
 ## Project Base in MVC
 + CONTROLLERS (DTO's)
