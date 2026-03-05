@@ -1,14 +1,9 @@
 package com.devjoliveira.appointmentmanagementapi.domain;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import com.devjoliveira.appointmentmanagementapi.dto.UserDTO;
 import com.devjoliveira.appointmentmanagementapi.enums.UserRole;
 
 import jakarta.persistence.Column;
@@ -23,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements UserDetails {
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,7 +30,6 @@ public class User implements UserDetails {
   @Column(unique = true, nullable = false)
   private String email;
 
-  @Column(nullable = false)
   private String password;
 
   @Column(name = "user_role", nullable = false)
@@ -59,15 +53,13 @@ public class User implements UserDetails {
     this.role = role;
   }
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(
-        new SimpleGrantedAuthority(role.name()));
-  }
-
-  @Override
-  public String getUsername() {
-    return email;
+  public User(UserDTO dto) {
+    this.id = dto.id();
+    this.name = dto.name();
+    this.phone = dto.phone();
+    this.email = dto.email();
+    this.password = dto.password();
+    this.role = UserRole.valueOf(dto.role());
   }
 
   public UUID getId() {

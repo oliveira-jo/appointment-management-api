@@ -8,9 +8,12 @@ public record UserDTO(
                 UUID id,
                 String name,
                 String phone,
-                String email) {
+                String email,
+                String role,
+                String password) {
 
         public UserDTO(User customer) {
-                this(customer.getId(), customer.getName(), customer.getPhone(), customer.getEmail());
+                this(customer.getId(), customer.getName(), customer.getPhone(), customer.getEmail(),
+                                customer.getRole().name(), customer.getPassword());
         }
 }

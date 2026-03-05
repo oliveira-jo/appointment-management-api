@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,17 +35,20 @@ public class AppointmentController {
     this.appointmentService = appointmentService;
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/day/{day}")
   public ResponseEntity<List<AppointmentDTO>> findAppointmentsByDay(
       @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByDay(day));
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/professional/{id}")
   public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalId(@PathVariable UUID id) {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByProfessionalId(id));
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/professional/{id}/day/{day}")
   public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalIdAndDay(@PathVariable UUID id,
       @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
@@ -56,6 +60,7 @@ public class AppointmentController {
     return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PostMapping
   public ResponseEntity<AppointmentDTO> save(@RequestBody @Valid AppointmentMinDTO request) {
 
@@ -70,6 +75,7 @@ public class AppointmentController {
 
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
     appointmentService.delete(id);

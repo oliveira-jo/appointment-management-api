@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +38,13 @@ public class CustomerController {
     return ResponseEntity.ok().body(customerService.findAll());
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/{email}")
   public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
     return ResponseEntity.ok().body(customerService.findByEmail(email));
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PostMapping
   public ResponseEntity<UserDTO> save(@RequestBody @Valid UserMinDTO request) {
 
@@ -54,11 +57,13 @@ public class CustomerController {
 
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @PutMapping("/{id}")
   public ResponseEntity<UserDTO> change(@PathVariable UUID id, @RequestBody @Valid UserMinDTO request) {
     return ResponseEntity.ok().body(customerService.change(id, request));
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable UUID id) {
     customerService.delete(id);

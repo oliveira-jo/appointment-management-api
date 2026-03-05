@@ -9,9 +9,11 @@ public record UserMinDTO(
                 @NotBlank(message = "Name is required") String name,
                 @NotBlank(message = "Phone is required") String phone,
                 @NotBlank(message = "Email is required") @Email String email,
+                String password,
                 String role) {
 
         public UserMinDTO(User customer) {
-                this(customer.getName(), customer.getPhone(), customer.getEmail(), customer.getRole().toString());
+                this(customer.getName(), customer.getPhone(), customer.getEmail(), customer.getPassword(),
+                                customer.getRole().toString());
         }
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,13 +34,22 @@ public class UserService {
   @Transactional(readOnly = true)
   public UserDTO findByEmail(String email) {
     return userRepository.findByEmail(email).map(UserDTO::new).orElseThrow(
-        () -> new ResourceNotFoundException("Customer not found with email: " + email));
+        () -> new ResourceNotFoundException("User not found with email: " + email));
+  }
+
+  @Transactional(readOnly = true)
+  public User findByName(String name) {
+    User user = userRepository.findByName(name);
+    if (user == null) {
+      throw new ResourceNotFoundException("User not found with name: " + name);
+    }
+    return user;
   }
 
   @Transactional
   public UserDTO save(UserMinDTO request, UserRole role) {
     userRepository.findByEmail(request.email()).ifPresent(customer -> {
-      throw new DuplicateKeyException("Customer with email " + customer.getEmail() + " already exists");
+      throw new DuplicateKeyException("User with email " + customer.getEmail() + " already exists");
     });
 
     User entity = new User();
@@ -47,6 +57,11 @@ public class UserService {
     entity.setPhone(request.phone());
     entity.setEmail(request.email());
     entity.setRole(role);
+
+    if (request.password() == null || request.password().isBlank())
+      entity.setPassword(null);
+    else
+      entity.setPassword(new BCryptPasswordEncoder().encode(request.password()));
 
     var fromDB = userRepository.save(entity);
     return new UserDTO(fromDB);
