@@ -52,8 +52,8 @@ public class SecurityConfig {
         .formLogin(withDefaults -> withDefaults.disable())
         .logout(withDefaults -> withDefaults.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
-    // .csrf(withDefaults -> withDefaults.disable());
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+        .csrf(withDefaults -> withDefaults.disable());
 
     http.addFilterBefore(jwtTokentFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
