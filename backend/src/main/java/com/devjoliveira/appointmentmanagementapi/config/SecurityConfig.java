@@ -40,7 +40,9 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authenticationProvider(authenticationProvider())
+        .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
         .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/h2-console/**").permitAll()
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers(HttpMethod.GET, "/professionals").permitAll()
             .requestMatchers(HttpMethod.GET, "/products").permitAll()
@@ -50,7 +52,8 @@ public class SecurityConfig {
         .formLogin(withDefaults -> withDefaults.disable())
         .logout(withDefaults -> withDefaults.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(withDefaults -> withDefaults.disable());
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+    // .csrf(withDefaults -> withDefaults.disable());
 
     http.addFilterBefore(jwtTokentFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
