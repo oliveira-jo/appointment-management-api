@@ -10,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -26,20 +27,20 @@ public class SecurityConfig {
 
   private final UserDetailsServiceImpl userDetailsService;
 
-  private final JwtTokenFilter jwtTokentFilter;
+  private final JwtTokenFilter jwtTokenFilter;
 
   public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtTokenFilter jwtTokenFilter) {
     this.userDetailsService = userDetailsService;
-    this.jwtTokentFilter = jwtTokenFilter;
+    this.jwtTokenFilter = jwtTokenFilter;
 
   }
 
-  // Liberar h2 console
-
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
     http
         .authenticationProvider(authenticationProvider())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/h2-console/**").permitAll()
@@ -49,15 +50,14 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.GET, "/customers").permitAll()
             .requestMatchers(HttpMethod.GET, "/appointments").permitAll()
             .anyRequest().authenticated())
-        .formLogin(withDefaults -> withDefaults.disable())
-        .logout(withDefaults -> withDefaults.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-        .csrf(withDefaults -> withDefaults.disable());
+        .csrf(csrf -> csrf.disable())
+        .formLogin(login -> login.disable())
+        .logout(logout -> logout.disable());
 
-    http.addFilterBefore(jwtTokentFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
-
   }
 
   @Bean

@@ -14,22 +14,34 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/customers"
+						"url": "{{url-local}}/customers"
 					},
 					"response": []
 				},
 				{
 					"name": "Customer by email",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/customers/Anjali.Hermann63@hotmail.com"
+						"url": "{{url-local}}/customers/Ilene94@gmail.com"
 					},
 					"response": []
 				},
 				{
 					"name": "Customer",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -41,13 +53,19 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/customers"
+						"url": "{{url-local}}/customers"
 					},
 					"response": []
 				},
 				{
 					"name": "Customer by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -59,16 +77,22 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/customers/378febc6-a0ed-4686-9a87-6e0d4deb5e3f"
+						"url": "{{url-local}}/customers/378febc6-a0ed-4686-9a87-6e0d4deb5e3f"
 					},
 					"response": []
 				},
 				{
 					"name": "Customer by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/customers/378febc6-a0ed-4686-9a87-6e0d4deb5e3f"
+						"url": "{{url-local}}/customers/e74c838f-e491-4275-ad3a-1f63a6bbea81"
 					},
 					"response": []
 				}
@@ -82,40 +106,58 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/professionals"
+						"url": "{{url-local}}/professionals"
 					},
 					"response": []
 				},
 				{
 					"name": "Get by email",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/professionals/leandro@gmail.com"
+						"url": "{{url-local}}/professionals/Hayley.Barton85@gmail.com"
 					},
 					"response": []
 				},
 				{
 					"name": "Professional",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"specialty\":\"{{$randomJobTitle}}\",\n    \"email\":\"{{$randomEmail}}\"\n\n}",
+							"raw": "{\n    \"name\":\"{{$randomFullName}}\",\n    \"email\":\"{{$randomEmail}}\",\n    \"phone\":\"{{$randomPhoneNumber}}\"\n\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/professionals"
+						"url": "{{url-local}}/professionals"
 					},
 					"response": []
 				},
 				{
 					"name": "Professional by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -127,16 +169,22 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/professionals/12345678-1234-1234-1234-123456789012"
+						"url": "{{url-local}}/professionals/12345678-1234-1234-1234-123456789012"
 					},
 					"response": []
 				},
 				{
 					"name": "Professional by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/professionals/771848bf-d970-4088-a8fb-a76faaa457d4"
+						"url": "{{url-local}}/professionals/f7e5539c-bd9c-4064-9a6f-f123c94b9385"
 					},
 					"response": []
 				}
@@ -150,34 +198,46 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/products"
+						"url": "{{url-local}}/products"
 					},
 					"response": []
 				},
 				{
 					"name": "Product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"Pintura de Cabelo\",\n    \"durationInSeconds\":3600,\n    \"price\":90.00\n}",
+							"raw": "{\n    \"name\":\":Pintura\",\n    \"durationInSeconds\":2600,\n    \"price\":70.00\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/products"
+						"url": "{{url-local}}/products"
 					},
 					"response": []
 				},
 				{
 					"name": "Product by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/products/c0f8c7e2-7b2d-4a1c-8f3e-5c0b8f1e2a3b"
+						"url": "{{url-local}}/products/5f41d15f-e3e8-4669-a28e-ae21b313e6af"
 					},
 					"response": []
 				}
@@ -191,61 +251,183 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/appointments"
+						"url": "{{url-local}}/appointments"
 					},
 					"response": []
 				},
 				{
 					"name": "Get Appointments by day",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/appointments/"
+						"url": "{{tokenam}}/appointments/day/2026-03-11T07:00:00"
 					},
 					"response": []
 				},
 				{
 					"name": "Get Appointments by professional id",
 					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/appointments/professional/12345678-1234-1234-1234-123456789012"
-					},
-					"response": []
-				},
-				{
-					"name": "Appointment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"customerEmail\":\"lucilene@gmail.com\",\n    \"professionalEmail\":\"leandro@gmail.com\",\n    \"productName\":\"Corte de Cabelo Premium\",\n    \"scheduledAt\":\"13/02/2026 18:00:00\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
 							}
 						},
-						"url": "http://localhost:8080/appointments"
-					},
-					"response": []
-				},
-				{
-					"name": "Product by id",
-					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/products/c0f8c7e2-7b2d-4a1c-8f3e-5c0b8f1e2a3b"
+						"url": "{{url-local}}/appointments/professional/12345678-1234-1234-1234-123456789012"
 					},
 					"response": []
 				},
 				{
 					"name": "Get Appointments by professional id and day",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/appointments/professional/12345678-1234-1234-1234-123456789012/day/10-03-2026"
+						"url": "{{url-local}}/appointments/professional/12345678-1234-1234-1234-123456789012/day/10-03-2026"
+					},
+					"response": []
+				},
+				{
+					"name": "Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerEmail\":\"lucilene@gmail.com\",\n    \"professionalEmail\":\"leandro@gmail.com\",\n    \"productName\":\"Corte de Cabelo Premium\",\n    \"scheduledAt\":\"21/04/2026 18:00:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url-local}}/appointments"
+					},
+					"response": []
+				},
+				{
+					"name": "Product by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenam}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{url-local}}/products/69b20c62-57d9-4ec3-ab80-5656fd8b2b1d"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Do Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = JSON.parse(responseBody);",
+									"pm.environment.set(\"tokenam\", res.accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eeyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyMzgzNjk0OSwiaWF0IjoxNzIzODMzMzQ5fQ.Fyf7c8glvfGRZuTudJDwYL4OAx-RXNBPXBO7ysyrjho",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url-local}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "User Logged",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{tokenhd}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eeyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyMzgzNjk0OSwiaWF0IjoxNzIzODMzMzQ5fQ.Fyf7c8glvfGRZuTudJDwYL4OAx-RXNBPXBO7ysyrjho",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url-local}}/api/v1/auth"
 					},
 					"response": []
 				}
