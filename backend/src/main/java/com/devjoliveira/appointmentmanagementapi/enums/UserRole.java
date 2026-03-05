@@ -1,8 +1,25 @@
 package com.devjoliveira.appointmentmanagementapi.enums;
 
-public enum UserRole {
-  ROLE_ADMIN,
-  ROLE_PROFESSIONAL,
-  ROLE_CUSTOMER;
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UserRole implements GrantedAuthority {
+  ROLE_ADMIN("ADMIN"),
+  ROLE_PROFESSIONAL("PROFESSIONAL"),
+  ROLE_CUSTOMER("CUSTOMER");
+
+  private String role;
+
+  UserRole(String role) {
+    this.role = role;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  @Override
+  public String getAuthority() {
+    return this.role;
+  }
 
 }
