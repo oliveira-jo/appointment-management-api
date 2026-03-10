@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppointmentService } from '../../services/appointment.service';
-import { Appointment } from '../../models/Appointment';
-import { Page } from '../../models/Page';
+import { AppointmentService } from '../../appointment.service';
+import { Appointment, Page } from '../../appointment-model';
 
 @Component({
   standalone: true,
