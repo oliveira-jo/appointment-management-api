@@ -29,6 +29,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  getEmail(): string | null {
+    return localStorage.getItem('email');
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiresIn');
