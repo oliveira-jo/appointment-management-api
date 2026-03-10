@@ -2,7 +2,7 @@
 
 INSERT INTO tb_user (id, name, phone, email, password, user_role, created_at) VALUES ('12345678-1234-1234-1234-123456781010', 'Jonathan Oliveira', '(11) 99999-9999', 'admin@', '$2a$10$6mKFS7q5HnuF8tIHGJIiJefmk1S8x6ms2KQ/Y3pHRUUVx0VeufxxS', 'ROLE_ADMIN', CURRENT_TIMESTAMP);
 
-INSERT INTO tb_user (id, name, phone, email, password, user_role, created_at) VALUES ('12345678-1234-1234-1234-123456789012', 'LeandroBueno', 'Corte de Cabelo', 'leandro@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', 'ROLE_PROFESSIONAL', CURRENT_TIMESTAMP);
+INSERT INTO tb_user (id, name, phone, email, password, user_role, created_at) VALUES ('12345678-1234-1234-1234-123456789012', 'LeandroBueno', '(11) 99999-9999', 'leandro@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', 'ROLE_PROFESSIONAL', CURRENT_TIMESTAMP);
 
 INSERT INTO tb_user (id, name, phone, email, password, user_role, created_at) VALUES ('c7e8f9a0-b1c2-d3e4-f5a6-b7c8d9e0f1a2', 'Lucilene Massoco Oliveira', '(11) 99999-9999','lucilene@gmail.com','$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', 'ROLE_CUSTOMER', CURRENT_TIMESTAMP);
 INSERT INTO tb_user (id, name, phone, email, password, user_role, created_at) VALUES ('d8f9a0b1-c2d3-e4f5-a6b7-c8d9e0f1a2b3', 'Lucia Oliveira', '(11) 99999-9999','lucia@gmail.com','$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', 'ROLE_CUSTOMER', CURRENT_TIMESTAMP);
