@@ -35,7 +35,7 @@ public class ProfessionalController {
 
   @GetMapping
   public ResponseEntity<List<UserMinDTO>> findAll() {
-    return ResponseEntity.ok().body(userService.findAll());
+    return ResponseEntity.ok().body(userService.findAllProfessionals());
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")

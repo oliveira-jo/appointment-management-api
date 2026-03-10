@@ -32,6 +32,16 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
+  public List<UserMinDTO> findAllProfessionals() {
+    return userRepository.findAllProfessionals().get().stream().map(UserMinDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<UserMinDTO> findAllCustomers() {
+    return userRepository.findAllProfessionals().get().stream().map(UserMinDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
   public UserDTO findByEmail(String email) {
     return userRepository.findByEmail(email).map(UserDTO::new).orElseThrow(
         () -> new ResourceNotFoundException("User not found with email: " + email));
