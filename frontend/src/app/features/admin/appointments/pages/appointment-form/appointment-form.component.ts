@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppointmentService } from '../../appointment.service';
-import { CustomerService } from '../../../customers/customer.service';
-import { ProfessionalService } from '../../../professionals/professional.service';
-import { CustomerResponse } from '../../../customers/customer-modal';
-import { ProfessioanlResponse } from '../../../professionals/professional-model';
-import { AppointmentRequest } from '../../appointment-model';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerResponse } from '../../../customers/customer-modal';
+import { CustomerService } from '../../../customers/customer.service';
 import { ProductResponse } from '../../../products/product-modal';
 import { ProductService } from '../../../products/product.service';
+import { ProfessioanlResponse } from '../../../professionals/professional-model';
+import { ProfessionalService } from '../../../professionals/professional.service';
+import { AppointmentRequest } from '../../appointment-model';
+import { AppointmentService } from '../../appointment.service';
 
 @Component({
   selector: 'app-appointment-form',
@@ -32,7 +32,9 @@ export class AppointmentFormComponent implements OnInit {
     private customerService: CustomerService,
     private professionalService: ProfessionalService,
     private productService: ProductService,
-    private router: Router
+    private router: Router,
+
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -69,8 +71,7 @@ export class AppointmentFormComponent implements OnInit {
     // Formatin date for api rules
     const [year, month, day] = this.date.split('-');
     const formattedDate = `${day}/${month}/${year}`;
-
-    const dateTime = formattedDate + " " + this.time + "";
+    const dateTime = formattedDate + " " + this.time + ":00";
 
     this.appointment = {
       customerEmail: this.appointment.customerEmail,

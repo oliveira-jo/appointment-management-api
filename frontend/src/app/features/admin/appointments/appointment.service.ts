@@ -18,10 +18,6 @@ export class AppointmentService {
     )
   }
 
-  getById(id: string) {
-    return this.http.get<AppointmentResponse>(`${this.apiUrl}/${id}`);
-  }
-
   getByDay(date: string) {
     return this.http.get<any[]>(`${this.apiUrl}/day/${date}`);
   }
@@ -33,10 +29,6 @@ export class AppointmentService {
 
   create(data: AppointmentRequest) {
     return this.http.post(this.apiUrl, data);
-  }
-
-  update(id: string, data: AppointmentRequest) {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
   delete(id: string) {

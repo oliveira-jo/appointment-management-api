@@ -3,7 +3,9 @@ import { AppointmentService } from '../../appointment.service';
 import { AppointmentRequest, AppointmentResponse, MetricsResponse, Page } from '../../appointment-model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+
+declare var bootstrap: any;
 
 @Component({
   standalone: true,
@@ -26,8 +28,6 @@ export class AppointmentListComponent implements OnInit {
   toastMessage = '';
 
   selectedAppointmentId: string | null = null;
-  editingId: string | null = null;
-
 
   // pagination
   pageNumber = 0;
@@ -48,7 +48,7 @@ export class AppointmentListComponent implements OnInit {
     endDate: ''
   };
 
-  constructor(private appointmentService: AppointmentService) { }
+  constructor(private appointmentService: AppointmentService, private router: Router) { }
 
 
   ngOnInit() {
@@ -85,56 +85,6 @@ export class AppointmentListComponent implements OnInit {
       });
   }
 
-  // save(form: any) {
-  //   if (this.editingId) {
-  //     this.appointmentService.update(this.editingId, this.appointment)
-  //       .subscribe(() => {
-
-  //         this.toastMessage = "Customer updated successfully";
-
-  //         this.afterSave(form);
-
-  //       });
-
-  //   } else {
-  //     this.appointmentService.create(this.appointment)
-  //       .subscribe(() => {
-
-  //         this.toastMessage = "Customer created successfully";
-
-  //         this.afterSave(form);
-
-  //       });
-  //   }
-  // }
-
-  // afterSave(form: any) {
-  //   this.loadAppointments();
-
-  //   form.reset();
-
-  //   this.appointment = { customerEmail: '', professionalEmail: '', productName: '', scheduledAt: '' }
-
-  //   this.editingId = null;
-
-  // }
-
-  // change(id: string) {
-  //   this.appointmentService.getById(id)
-  //     .subscribe((data) => {
-
-  //       this.appointment = {
-  //         customerEmail: this.appointment.customerEmail,
-  //         professionalEmail: this.appointment.professionalEmail,
-  //         productName: data.productName,
-  //         scheduledAt: data.scheduledAt
-  //       };
-
-  //       this.editingId = id;
-
-  //     });
-  // }
-
   delete() {
     if (!this.selectedAppointmentId) return;
 
@@ -144,12 +94,21 @@ export class AppointmentListComponent implements OnInit {
         this.loadAppointments();
         this.loadMetrics();
 
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById('deleteModal')
+        );
+
+        modal.hide();
+
       });
   }
 
   openDeleteModal(id: string) {
     this.selectedAppointmentId = id;
-
+    const modal = new bootstrap.Modal(
+      document.getElementById('deleteModal')
+    );
+    modal.show();
   }
 
   clearFilter() {
