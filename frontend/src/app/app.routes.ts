@@ -7,6 +7,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { ProfessionalListComponent } from './features/admin/professionals/pages/professional-list/professional-list.component';
 import { CustomerListComponent } from './features/admin/customers/pages/customer-list/customer-list.component';
 import { ProductListComponent } from './features/admin/products/pages/product-list/product-list.component';
+import { AppointmentFormComponent } from './features/admin/appointments/pages/appointment-form/appointment-form.component';
 
 export const routes: Routes = [
 
@@ -24,6 +25,8 @@ export const routes: Routes = [
       { path: 'professionals', component: ProfessionalListComponent },
       { path: 'customers', component: CustomerListComponent },
       { path: 'products', component: ProductListComponent },
+      { path: 'appointments', component: AppointmentListComponent },
+      { path: 'appointments/new', component: AppointmentFormComponent }
     ]
   },
 
