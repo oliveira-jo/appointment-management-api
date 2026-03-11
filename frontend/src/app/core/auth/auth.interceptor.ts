@@ -7,13 +7,13 @@ import { catchError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authService = inject(AuthService);
+  const router = inject(Router);
   const token = authService.getToken();
 
-  const router = inject(Router);
   let authReq = req;
 
   if (token) {
-    req = req.clone({
+    authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
