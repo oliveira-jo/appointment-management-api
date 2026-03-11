@@ -53,7 +53,7 @@ export class ProfessionalListComponent implements OnInit {
 
   }
 
-  saveProfessional(form: any) {
+  save(form: any) {
     if (this.editingId) {
       this.professionalService.update(this.editingId, this.professional)
         .subscribe(() => {
@@ -94,7 +94,7 @@ export class ProfessionalListComponent implements OnInit {
     this.showToast();
   }
 
-  editProfessional(id: string) {
+  change(id: string) {
     this.professionalService.getById(id)
       .subscribe((data) => {
 

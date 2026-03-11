@@ -29,7 +29,7 @@
       <td>{{ p.email }}</td>
       <td>{{ p.phone }}</td>
       <td>
-        <button class="btn btn-sm btn-warning me-2" (click)="editProfessional(p.id!)"> Edit </button>
+        <button class="btn btn-sm btn-warning me-2" (click)="change(p.id!)"> Edit </button>
         <button class="btn btn-sm btn-danger" (click)="openDeleteModal(p.id!)"> Delete </button>
       </td>
     </tr>
@@ -51,7 +51,7 @@
       </div>
 
       <div class="modal-body">
-        <form #form="ngForm" (ngSubmit)="saveProfessional(form)">
+        <form #form="ngForm" (ngSubmit)="save(form)">
           <div class="mb-3">
             <label>Name</label>
             <input type="text" class="form-control" name="name" required [(ngModel)]="professional.name">
