@@ -68,6 +68,7 @@ export class ProductListComponent implements OnInit {
         });
 
     } else {
+      this.product.durationInSeconds = this.product.durationInSeconds * 60;
       this.productService.create(this.product)
         .subscribe(() => {
 
