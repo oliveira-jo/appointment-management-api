@@ -5,11 +5,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ import com.devjoliveira.appointmentmanagementapi.enums.AppointmentStatus;
 import com.devjoliveira.appointmentmanagementapi.repository.AppointmentRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.ProductRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.UserRepository;
-import com.devjoliveira.appointmentmanagementapi.service.exceptions.DatabaseException;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -138,7 +137,7 @@ public class AppointmentService {
     appointment.setProduct(product);
     appointment.setScheduledAt(scheduledAt);
     appointment.setEndsAt(endsAt);
-    appointment.setAppointmentStatus(AppointmentStatus.SCHEDULED);
+    appointment.setAppointmentStatus(AppointmentStatus.CONFIRMED);
 
     var fromDB = appointmentRepository.save(appointment);
 
@@ -148,15 +147,32 @@ public class AppointmentService {
   @Transactional
   public void delete(UUID id) {
 
-    var fromDB = appointmentRepository.findById(id).orElseThrow(
+    Appointment fromDB = appointmentRepository.findById(id).orElseThrow(
         () -> new ResourceNotFoundException("Appointment with id " + id + " not found"));
 
-    try {
-      appointmentRepository.delete(fromDB);
-    } catch (DataIntegrityViolationException e) {
-      throw new DatabaseException("Fail in reference integrity");
-    }
+    fromDB.setAppointmentStatus(AppointmentStatus.CANCELLED);
+    this.appointmentRepository.save(fromDB);
 
   }
+
+  @Transactional
+  public void updateCompletedAppointments() {
+    appointmentRepository.markAsCompleted(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+  }
+
+  // @Transactional
+  // public void delete(UUID id) {
+
+  // var fromDB = appointmentRepository.findById(id).orElseThrow(
+  // () -> new ResourceNotFoundException("Appointment with id " + id + " not
+  // found"));
+
+  // try {
+  // appointmentRepository.delete(fromDB);
+  // } catch (DataIntegrityViolationException e) {
+  // throw new DatabaseException("Fail in reference integrity");
+  // }
+
+  // }
 
 }
