@@ -5,7 +5,7 @@
     <div class="col-md-3">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h6 class="text-muted">Appointments Today</h6>
+          <h6 class="text-muted">Agendamentos de Hoje</h6>
           <h3>{{metrics.todayAppointments}}</h3>
         </div>
       </div>
@@ -14,7 +14,7 @@
     <div class="col-md-3">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h6 class="text-muted">Appointments This Week</h6>
+          <h6 class="text-muted">Agendamentos da Semana</h6>
           <h3>{{metrics.weekAppointments}}</h3>
         </div>
       </div>
@@ -23,7 +23,7 @@
     <div class="col-md-3">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h6 class="text-muted">Revenue Today</h6>
+          <h6 class="text-muted">Redeita de Hoje</h6>
           <h3>{{metrics.todayRevenue | currency:'BRL'}}</h3>
         </div>
       </div>
@@ -32,7 +32,7 @@
     <div class="col-md-3">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h6 class="text-muted">Total Appointments</h6>
+          <h6 class="text-muted">Total de Agendamentos</h6>
           <h3>{{metrics.totalAppointments}}</h3>
         </div>
       </div>
@@ -40,32 +40,32 @@
   </div>
 
   <!-- New Appointment -->
-  <h3>Appointment</h3>
+  <h3>Agendamento</h3>
   <div class="d-flex justify-content-end mb-5">
     <button class="btn btn-primary" routerLink="/appointments/new">
-      + New Appointment
+      + Novo Agendamento
     </button>
   </div>
 
   <!-- Data Filter -->
-  <h3>Search Appointments</h3>
+  <h3>Pesquisar Agenda</h3>
   <div class="card mb-5 shadow-sm border-0">
     <div class="card-body">
 
       <div class="row">
 
         <div class="col-md-4">
-          <label>Search Appointment by Day</label>
+          <label>Pesquisar agendamento por dia</label>
           <input type="date" class="form-control" [(ngModel)]="filter.startDate">
         </div>
 
         <div class="col-md-4 d-flex align-items-end">
           <button class="btn btn-primary me-2" (click)="search()">
-            Filter
+            Filtrar
           </button>
 
           <button class="btn btn-secondary" (click)="clearFilter()">
-            Clear
+            Limpar Filtro
           </button>
         </div>
       </div>
@@ -73,14 +73,14 @@
   </div>
 
   <!-- List Appointment -->
-  <h3>All Appointments</h3>
+  <h3>Todos Agendamentos</h3>
   <table class="table table-striped mt-5">
     <thead>
       <tr>
-        <th>Customer</th>
-        <th>Professional</th>
-        <th>Service</th>
-        <th>Date</th>
+        <th>Cliente</th>
+        <th>Profissional</th>
+        <th>Serviço</th>
+        <th>Data</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -94,7 +94,7 @@
         <td>{{ obj.status }}</td>
 
         <td>
-          <button class="btn btn-sm btn-danger" (click)="openDeleteModal(obj.id!)"> Delete </button>
+          <button class="btn btn-sm btn-danger" (click)="openDeleteModal(obj.id!)"> Cancelar </button>
         </td>
       </tr>
       } @empty {
@@ -108,13 +108,13 @@
   <!-- Pagination -->
   <div class="d-flex justify-content-center align-items-center gap-3 mt-5">
     <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 0">
-      Previous
+      Anterior
     </button>
     <span class="fw-bold">
-      Page {{ currentPage + 1 }} / {{ page?.totalPages }}
+      Página {{ currentPage + 1 }} / {{ page?.totalPages }}
     </span>
     <button class="btn btn-primary" (click)="nextPage()" [disabled]="page?.last===true">
-      Next
+      Próximo
     </button>
   </div>
 

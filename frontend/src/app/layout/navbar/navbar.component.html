@@ -2,16 +2,16 @@
 
   <div class="container-fluid">
 
-    <a class="navbar-brand">Scheduler</a>
-
     <div class="d-flex ms-auto align-items-center text-white">
 
       <span class="me-3">
-        {{ email }}
+        @if(email) {
+        Olá, {{ email }}
+        }
       </span>
 
       <button class="btn btn-outline-light btn-sm" (click)="logout()">
-        Logout
+        Sair
       </button>
 
     </div>
