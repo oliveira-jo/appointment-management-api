@@ -10,6 +10,8 @@ import { ProfessionalService } from '../../../professionals/professional.service
 import { AppointmentRequest } from '../../appointment-model';
 import { AppointmentService } from '../../appointment.service';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-appointment-form',
   imports: [FormsModule],
@@ -21,6 +23,12 @@ export class AppointmentFormComponent implements OnInit {
   customers: CustomerResponse[] = [];
   professionals: ProfessioanlResponse[] = [];
   products: ProductResponse[] = [];
+
+  successMessage = '';
+  errorMessage = '';
+
+  successToast: any;
+  errorToast: any;
 
   date = '';
   time = '13:00';
@@ -80,12 +88,49 @@ export class AppointmentFormComponent implements OnInit {
       scheduledAt: dateTime
     };
 
-    // console.log(this.appointment)
+    if (!this.date || !this.time) {
+      this.showError('Erro ao agendar. Tente novamente.');
+      return;
+    }
+
     this.appointmentService.create(this.appointment)
-      .subscribe(() => {
-        this.router.navigate(['/appointments']);
+      .subscribe({
+        next: () => {
+          this.showSuccess('Agendamento realizado com sucesso!');
+
+          setTimeout(() => {
+            this.router.navigate(['/appointments']);
+          }, 2000); // espera 2 segundos
+
+        },
+        error: (err) => {
+          this.showError('Erro ao agendar. Tente novamente.');
+        }
       });
 
+  }
+
+  ngAfterViewInit() {
+    const successEl = document.getElementById('successToast');
+    const errorEl = document.getElementById('errorToast');
+
+    this.successToast = new (window as any).bootstrap.Toast(successEl, {
+      delay: 6000
+    });
+
+    this.errorToast = new (window as any).bootstrap.Toast(errorEl, {
+      delay: 4000
+    });
+  }
+
+  showSuccess(message: string) {
+    this.successMessage = message;
+    this.successToast.show();
+  }
+
+  showError(message: string) {
+    this.errorMessage = message;
+    this.errorToast.show();
   }
 
 }

@@ -18,7 +18,11 @@ export class CustomerListComponent implements OnInit {
   customer: CustomerRequest = { name: '', email: '', phone: '' };
 
   searchEmail = '';
-  toastMessage = '';
+  // toastMessage = '';
+  successMessage = '';
+  errorMessage = '';
+  successToast: any;
+  errorToast: any;
 
   selectedCustomerId: string | null = null;
   editingId: string | null = null;
@@ -52,23 +56,34 @@ export class CustomerListComponent implements OnInit {
   }
 
   save(form: any) {
+
+    if (form.invalid) {
+      this.showError('Preencha os campos obrigatórios!');
+      return;
+    }
+
     if (this.editingId) {
       this.customerService.update(this.editingId, this.customer)
-        .subscribe(() => {
-
-          this.toastMessage = "Customer updated successfully";
-
-          this.afterSave(form);
-
+        .subscribe({
+          next: () => {
+            this.showSuccess('Cliente salvo com sucesso!');
+            this.afterSave(form);
+          },
+          error: (err) => {
+            this.showError('Erro ao salvar o cliente. Tente novamente.');
+          }
         });
 
     } else {
       this.customerService.create(this.customer)
-        .subscribe(() => {
-
-          this.toastMessage = "Customer created successfully";
-
-          this.afterSave(form);
+        .subscribe({
+          next: () => {
+            this.showSuccess('Cliente salvo com sucesso!');
+            this.afterSave(form);
+          },
+          error: (err) => {
+            this.showError('Erro ao salvar o cliente. Tente novamente.');
+          }
 
         });
     }
@@ -76,20 +91,15 @@ export class CustomerListComponent implements OnInit {
 
   afterSave(form: any) {
     this.loadCustomers();
-
     form.reset();
 
     this.customer = { name: '', email: '', phone: '' };
-
     this.editingId = null;
 
     const modal = bootstrap.Modal.getInstance(
       document.getElementById('customerModal')
     );
-
     modal.hide();
-
-    this.showToast();
   }
 
   change(id: string) {
@@ -108,16 +118,9 @@ export class CustomerListComponent implements OnInit {
           document.getElementById('customerModal')
         );
 
-        modal.show();
+        modal.show(this.successMessage);
 
       });
-  }
-
-  showToast() {
-    const toastEl = document.getElementById('successToast');
-    const toast = new bootstrap.Toast(toastEl);
-
-    toast.show();
   }
 
   formatPhone() {
@@ -157,6 +160,29 @@ export class CustomerListComponent implements OnInit {
     );
 
     modal.show();
+  }
+
+  ngAfterViewInit() {
+    const successEl = document.getElementById('successToast');
+    const errorEl = document.getElementById('errorToast');
+
+    this.successToast = new (window as any).bootstrap.Toast(successEl, {
+      delay: 6000
+    });
+
+    this.errorToast = new (window as any).bootstrap.Toast(errorEl, {
+      delay: 4000
+    });
+  }
+
+  showSuccess(message: string) {
+    this.successMessage = message;
+    this.successToast.show();
+  }
+
+  showError(message: string) {
+    this.errorMessage = message;
+    this.errorToast.show();
   }
 
 }
