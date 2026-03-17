@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AppointmentRequest, AppointmentResponse, MetricsResponse, Page } from './appointment-model';
+import { AppointmentRequest, AppointmentResponse, Metrics, Page } from './appointment-model';
 
 declare var bootstrap: any;
 
@@ -18,13 +18,12 @@ export class AppointmentService {
     )
   }
 
-  getByDay(date: string) {
-    return this.http.get<any[]>(`${this.apiUrl}/day/${date}`);
+  getMetrics() {
+    return this.http.get<Metrics>(`${this.apiUrl}/metrics`);
   }
 
-  getMetrics(): MetricsResponse {
-    const metrics: MetricsResponse = { today: 1, week: 1, revenueToday: 0, total: 2 };
-    return metrics;
+  getByDay(date: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/day/${date}`);
   }
 
   create(data: AppointmentRequest) {
