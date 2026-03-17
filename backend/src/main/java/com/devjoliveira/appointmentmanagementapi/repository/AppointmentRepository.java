@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.devjoliveira.appointmentmanagementapi.domain.Appointment;
 
@@ -26,5 +28,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
       LocalDateTime end);
 
   List<Appointment> findByScheduledAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
+
+  @Modifying
+  @Query("""
+          UPDATE Appointment a
+          SET a.appointmentStatus = 'COMPLETED'
+          WHERE a.scheduledAt < :now
+          AND a.appointmentStatus <> 'COMPLETED'
+      """)
+  void markAsCompleted(@Param("now") LocalDateTime now);
 
 }
