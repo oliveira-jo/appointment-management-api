@@ -22,7 +22,10 @@ export class ProductListComponent implements OnInit {
   product: ProductRequest = { name: '', durationInSeconds: 0, price: 0 };
 
   searchName = '';
-  toastMessage = '';
+  successMessage = '';
+  errorMessage = '';
+  successToast: any;
+  errorToast: any;
 
   selectedProductId: string | null = null;
   editingId: string | null = null;
@@ -34,68 +37,74 @@ export class ProductListComponent implements OnInit {
   }
 
   loadProducts() {
-
     this.productService.getAll()
       .subscribe((data: any) => {
         const list = this.products = data as ProductResponse[];
       });
-
   }
 
   search() {
-
     if (!this.searchName) {
       this.loadProducts();
       return;
     }
-
     this.productService.getByName(this.searchName)
       .subscribe((data: any) => {
         this.products = data;
       });
-
   }
 
   save(form: any) {
+    if (this.product.price == 0) {
+      this.showError('Valor do produto precisa ser maior que Zero');
+      return;
+    }
+
+    if (this.product.durationInSeconds == 0) {
+      this.showError('Valor de tempo inválido');
+      return;
+    }
+
+    //durationsInSeconts (min -> sec)
+    this.product.durationInSeconds = this.product.durationInSeconds * 60;
+
     if (this.editingId) {
       this.productService.update(this.editingId, this.product)
-        .subscribe(() => {
-
-          this.toastMessage = "Product updated successfully";
-
-          this.afterSave(form);
-
+        .subscribe({
+          next: () => {
+            this.showSuccess('Produto alterado com sucesso!');
+            this.afterSave(form);
+          },
+          error: (err) => {
+            this.showError('Erro ao alterar o produto. Tente novamente.');
+          }
         });
 
     } else {
-      this.product.durationInSeconds = this.product.durationInSeconds * 60;
       this.productService.create(this.product)
-        .subscribe(() => {
-
-          this.toastMessage = "Product created successfully";
-
-          this.afterSave(form);
-
+        .subscribe({
+          next: () => {
+            this.showSuccess('Produto salvo com sucesso!');
+            this.afterSave(form);
+          },
+          error: (err) => {
+            this.showError('Erro ao salvar o produto. Tente novamente.');
+          }
         });
     }
   }
 
   afterSave(form: any) {
     this.loadProducts();
-
     form.reset();
 
     this.product = { name: '', durationInSeconds: 0, price: 0 };
-
     this.editingId = null;
 
     const modal = bootstrap.Modal.getInstance(
       document.getElementById('productModal')
     );
-
     modal.hide();
-
-    this.showToast();
   }
 
   change(id: string) {
@@ -108,6 +117,9 @@ export class ProductListComponent implements OnInit {
           price: data.price
         };
 
+        // Convert to presentation
+        this.product.durationInSeconds = this.product.durationInSeconds / 60;
+
         this.editingId = id;
 
         const modal = new bootstrap.Modal(
@@ -117,13 +129,6 @@ export class ProductListComponent implements OnInit {
         modal.show();
 
       });
-  }
-
-  showToast() {
-    const toastEl = document.getElementById('successToast');
-    const toast = new bootstrap.Toast(toastEl);
-
-    toast.show();
   }
 
   delete() {
@@ -151,6 +156,31 @@ export class ProductListComponent implements OnInit {
     );
 
     modal.show();
+  }
+
+  ngAfterViewInit() {
+    const successEl = document.getElementById('successToast');
+    const errorEl = document.getElementById('errorToast');
+
+    if (successEl) {
+      this.successToast = new bootstrap.Toast(successEl, { delay: 6000 });
+    }
+
+    if (errorEl) {
+      this.errorToast = new bootstrap.Toast(errorEl, { delay: 4000 });
+    }
+  }
+
+  showSuccess(message: string) {
+    this.successMessage = message;
+    if (this.successToast) {
+      this.successToast.show();
+    }
+  }
+
+  showError(message: string) {
+    this.errorMessage = message;
+    this.errorToast.show();
   }
 
 }
