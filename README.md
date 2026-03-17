@@ -31,7 +31,6 @@ Appointment management
 ## Monorepo
 > developing
 * Version frontend and backend together
-* Create a single pipeline in CI/CD
 * Create a single Docker Compose file
 * Keep API and UI contracts synchronized
 
@@ -141,7 +140,3 @@ spring.jpa.properties.hibernate.format_sql=true
   novoFim > existenteInicio
   ````
  4. Save
- 
- ## Under Developing
-* Add a validations in frontend
-* Add a popup for presentation erros
