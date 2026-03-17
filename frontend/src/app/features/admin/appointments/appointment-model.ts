@@ -14,11 +14,11 @@ export interface AppointmentRequest {
   scheduledAt: string
 }
 
-export interface MetricsResponse {
-  today: number
-  week: number
-  revenueToday: number
-  total: number
+export interface Metrics {
+  todayAppointments: number
+  weekAppointments: number
+  todayRevenue: number
+  totalAppointments: number
 }
 
 export interface Page<T> {
