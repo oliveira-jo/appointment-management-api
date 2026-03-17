@@ -1,7 +1,7 @@
 package com.devjoliveira.appointmentmanagementapi.enums;
 
 public enum AppointmentStatus {
-    SCHEDULED,
+    // SCHEDULED,
     CONFIRMED,
     CANCELLED,
     COMPLETED
