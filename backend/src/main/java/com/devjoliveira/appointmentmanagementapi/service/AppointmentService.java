@@ -24,6 +24,7 @@ import com.devjoliveira.appointmentmanagementapi.enums.AppointmentStatus;
 import com.devjoliveira.appointmentmanagementapi.repository.AppointmentRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.ProductRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.UserRepository;
+import com.devjoliveira.appointmentmanagementapi.service.exceptions.ProfessionalResourceNotAvaliable;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ResourceNotFoundException;
 
 @Service
@@ -126,7 +127,7 @@ public class AppointmentService {
         endsAt);
 
     if (!conflicts.isEmpty()) {
-      throw new IllegalStateException(
+      throw new ProfessionalResourceNotAvaliable(
           "Professional: " + professional.getName() + " is not available at the requested time: " + scheduledAt);
     }
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.DatabaseException;
+import com.devjoliveira.appointmentmanagementapi.service.exceptions.ProfessionalResourceNotAvaliable;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,14 @@ public class GlobalExceptionHandler {
       HttpServletRequest request) {
 
     return buildErrorResponse(HttpStatus.NOT_FOUND, "Resource not found", e.getMessage(), request.getRequestURI());
+
+  }
+
+  @ExceptionHandler(ProfessionalResourceNotAvaliable.class)
+  public ResponseEntity<StandardError> professionalResourceNotAvaliable(ProfessionalResourceNotAvaliable e,
+      HttpServletRequest request) {
+
+    return buildErrorResponse(HttpStatus.CONFLICT, "Professional not avaliable.", e.getMessage(), null);
 
   }
 
