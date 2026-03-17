@@ -21,6 +21,7 @@ Appointment management
 * Professional 
 * Service 
 * Appointment 
+* Metrics
 
 
 ## The mean of system is:
@@ -49,7 +50,11 @@ appointment-management/
 + REPOSITORIES (Entities)
 + MODELS (Entities)
 + INFRA
++ JOB
 
+## BACHEND JOB
++ Update Appointmens Status (CONFIRMED -> COMPLETED)
++ Clear Old Appointmens in DB (+6months)
 
 ## FRONTEND:
 > developing
@@ -137,3 +142,6 @@ spring.jpa.properties.hibernate.format_sql=true
   ````
  4. Save
  
+ ## Under Developing
+* Add a validations in frontend
+* Add a popup for presentation erros
