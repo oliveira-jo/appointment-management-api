@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.devjoliveira.appointmentmanagementapi.service.exceptions.AppointmentDateInPastException;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.DatabaseException;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ProfessionalResourceNotAvaliable;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ResourceNotFoundException;
@@ -30,6 +31,14 @@ public class GlobalExceptionHandler {
       HttpServletRequest request) {
 
     return buildErrorResponse(HttpStatus.CONFLICT, "Professional not avaliable.", e.getMessage(), null);
+
+  }
+
+  @ExceptionHandler(AppointmentDateInPastException.class)
+  public ResponseEntity<StandardError> ppointmentDateInPastException(AppointmentDateInPastException e,
+      HttpServletRequest request) {
+
+    return buildErrorResponse(HttpStatus.BAD_REQUEST, "Appointment Date In Past Exception.", e.getMessage(), null);
 
   }
 

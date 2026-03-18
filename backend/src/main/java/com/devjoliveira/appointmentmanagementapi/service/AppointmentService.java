@@ -24,6 +24,7 @@ import com.devjoliveira.appointmentmanagementapi.enums.AppointmentStatus;
 import com.devjoliveira.appointmentmanagementapi.repository.AppointmentRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.ProductRepository;
 import com.devjoliveira.appointmentmanagementapi.repository.UserRepository;
+import com.devjoliveira.appointmentmanagementapi.service.exceptions.AppointmentDateInPastException;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ProfessionalResourceNotAvaliable;
 import com.devjoliveira.appointmentmanagementapi.service.exceptions.ResourceNotFoundException;
 
@@ -101,7 +102,8 @@ public class AppointmentService {
 
     // Verify if date is no in the past
     if (scheduledAt.isBefore(LocalDateTime.now())) {
-      throw new IllegalArgumentException("Date/time cannot be in the past");
+      throw new AppointmentDateInPastException(
+          "Agendamento não pode ser feito em data passada - AppointmentDateInPastException");
     }
 
     // calculate the end time of the appointment based on the product duration
