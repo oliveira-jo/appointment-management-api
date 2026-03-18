@@ -1,4 +1,4 @@
-# HELPDESK PROJECT
+# Appointment Management platform
 
 > Status: Developing
 
