@@ -23,7 +23,7 @@ export class AppointmentListComponent implements OnInit {
   page?: Page<AppointmentResponse>;
 
   currentPage = 0
-  pageSize = 20
+  pageSize = 10
 
   searchProfessionalName = '';
   searchCustomerlName = '';

@@ -13,7 +13,7 @@ export class AppointmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(page: number = 0, size: number = 20): Observable<Page<AppointmentResponse>> {
+  getAll(page?: number, size?: number): Observable<Page<AppointmentResponse>> {
     return this.http.get<Page<AppointmentResponse>>(
       `${this.baseUrl}?page=${page}&size=${size}`
     )

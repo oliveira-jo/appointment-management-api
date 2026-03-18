@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerRequest, CustomerResponse } from '../../customer-modal';
 import { CustomerService } from '../../customer.service';
+import { Page } from '../../../appointments/appointment-model';
 
 declare var bootstrap: any;
 
@@ -16,6 +17,11 @@ export class CustomerListComponent implements OnInit {
 
   customers: CustomerResponse[] = [];
   customer: CustomerRequest = { name: '', email: '', phone: '' };
+
+  page?: Page<CustomerResponse>;
+
+  currentPage = 0
+  pageSize = 10
 
   searchEmail = '';
 
@@ -35,9 +41,12 @@ export class CustomerListComponent implements OnInit {
 
   loadCustomers() {
 
-    this.customerService.getAll()
+    this.customerService.getAll(this.currentPage, this.pageSize)
       .subscribe((data: any) => {
-        const list = this.customers = data as CustomerResponse[];
+        this.page = data
+        this.customers = data.content
+
+        const list = this.customers;
         this.customers = list.filter(p => p.role !== 'ROLE_ADMIN');
       });
 
@@ -185,6 +194,20 @@ export class CustomerListComponent implements OnInit {
   showError(message: string) {
     this.errorMessage = message;
     this.errorToast.show();
+  }
+
+  nextPage() {
+    if (!this.page?.last) {
+      this.currentPage++
+      this.loadCustomers()
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--
+      this.loadCustomers()
+    }
   }
 
 }

@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomerRequest, CustomerResponse } from './customer-modal';
 import { environment } from '../../../../environments/environment';
+import { Page } from '../appointments/appointment-model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,10 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-  getAll() {
-    return this.http.get(this.baseUrl);
+  getAll(page?: number, size?: number): Observable<Page<CustomerResponse>> {
+    return this.http.get<Page<CustomerResponse>>(
+      `${this.baseUrl}?page=${page}&size=${size}`
+    )
   }
 
   getById(id: string) {
