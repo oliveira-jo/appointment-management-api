@@ -28,6 +28,11 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
+  public List<ProductDTO> findAll() {
+    return this.productRepository.findAll().stream().map(ProductDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
   public Page<ProductDTO> findAllPaged(Pageable pageable) {
     Page<Product> prods = productRepository.findAll(pageable);
     return prods.map(ProductDTO::new);

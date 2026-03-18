@@ -36,29 +36,16 @@ public class AppointmentController {
     this.appointmentService = appointmentService;
   }
 
+  @GetMapping
+  public ResponseEntity<Page<AppointmentDTO>> findAll(Pageable pageable) {
+    return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
+  }
+
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
   @GetMapping("/day/{day}")
   public ResponseEntity<List<AppointmentDTO>> findAppointmentsByDay(
       @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
     return ResponseEntity.ok().body(appointmentService.findAppointmentsByDay(day));
-  }
-
-  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
-  @GetMapping("/professional/{id}")
-  public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalId(@PathVariable UUID id) {
-    return ResponseEntity.ok().body(appointmentService.findAppointmentsByProfessionalId(id));
-  }
-
-  @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")
-  @GetMapping("/professional/{id}/day/{day}")
-  public ResponseEntity<List<AppointmentDTO>> findAppointmentsByProfessionalIdAndDay(@PathVariable UUID id,
-      @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate day) {
-    return ResponseEntity.ok().body(appointmentService.findAppointmentsByProfessionalIdAndDay(id, day));
-  }
-
-  @GetMapping
-  public ResponseEntity<Page<AppointmentDTO>> findAll(Pageable pageable) {
-    return ResponseEntity.ok().body(appointmentService.findAllPaged(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL')")
@@ -72,8 +59,7 @@ public class AppointmentController {
   public ResponseEntity<AppointmentDTO> save(@RequestBody @Valid AppointmentMinDTO request) {
 
     AppointmentDTO appointmentDTO = appointmentService.createAppointment(request.customerEmail(),
-        request.professionalEmail(),
-        request.productName(), request.scheduledAt());
+        request.professionalEmail(), request.productName(), request.scheduledAt());
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(appointmentDTO.id()).toUri();

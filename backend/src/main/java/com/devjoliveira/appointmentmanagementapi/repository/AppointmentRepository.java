@@ -13,36 +13,31 @@ import com.devjoliveira.appointmentmanagementapi.domain.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
-  @Query("""
-          SELECT appointment FROM Appointment appointment
-          WHERE appointment.professional.id = :professionalId
-          AND appointment.appointmentStatus <> 'CANCELLED'
-          AND appointment.scheduledAt < :end
-          AND appointment.endsAt > :start
-      """)
-  List<Appointment> findConflictingAppointments(UUID professionalId, LocalDateTime start, LocalDateTime end);
+    List<Appointment> findByScheduledAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
-  List<Appointment> findByProfessionalId(UUID professionalId);
+    @Query("""
+                SELECT appointment FROM Appointment appointment
+                WHERE appointment.professional.id = :professionalId
+                AND appointment.appointmentStatus <> 'CANCELLED'
+                AND appointment.scheduledAt < :end
+                AND appointment.endsAt > :start
+            """)
+    List<Appointment> findConflictingAppointments(UUID professionalId, LocalDateTime start, LocalDateTime end);
 
-  List<Appointment> findByProfessionalIdAndScheduledAtBetween(UUID professionalId, LocalDateTime start,
-      LocalDateTime end);
+    @Modifying
+    @Query("""
+                UPDATE Appointment a
+                SET a.appointmentStatus = 'COMPLETED'
+                WHERE a.scheduledAt < :now
+                AND a.appointmentStatus <> 'COMPLETED'
+            """)
+    void markAsCompleted(@Param("now") LocalDateTime now);
 
-  List<Appointment> findByScheduledAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
-
-  @Modifying
-  @Query("""
-          UPDATE Appointment a
-          SET a.appointmentStatus = 'COMPLETED'
-          WHERE a.scheduledAt < :now
-          AND a.appointmentStatus <> 'COMPLETED'
-      """)
-  void markAsCompleted(@Param("now") LocalDateTime now);
-
-  @Modifying
-  @Query("""
-          DELETE FROM Appointment a
-          WHERE a.scheduledAt < :limitDate
-      """)
-  void deleteOlderThan(@Param("limitDate") LocalDateTime limitDate);
+    @Modifying
+    @Query("""
+                DELETE FROM Appointment a
+                WHERE a.scheduledAt < :limitDate
+            """)
+    void deleteOlderThan(@Param("limitDate") LocalDateTime limitDate);
 
 }

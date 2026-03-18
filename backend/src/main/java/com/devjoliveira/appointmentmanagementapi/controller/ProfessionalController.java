@@ -1,6 +1,7 @@
 package com.devjoliveira.appointmentmanagementapi.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -34,9 +35,14 @@ public class ProfessionalController {
     this.userService = userService;
   }
 
+  @GetMapping("/all")
+  public ResponseEntity<List<UserMinDTO>> findAll() {
+    return ResponseEntity.ok().body(userService.findAllProfessionals());
+  }
+
   @GetMapping
   public ResponseEntity<Page<UserMinDTO>> findAll(Pageable pageable) {
-    return ResponseEntity.ok().body(userService.findAllProfessionals(pageable));
+    return ResponseEntity.ok().body(userService.findAllProfessionalsPage(pageable));
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'PROFESSIONAL', 'CUSTOMER')")

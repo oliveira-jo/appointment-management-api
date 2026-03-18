@@ -34,8 +34,13 @@ public class ProductController {
     this.productService = productService;
   }
 
+  @GetMapping("/all")
+  public ResponseEntity<List<ProductDTO>> findAll() {
+    return ResponseEntity.ok().body(productService.findAll());
+  }
+
   @GetMapping
-  public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+  public ResponseEntity<Page<ProductDTO>> findAllPaged(Pageable pageable) {
     return ResponseEntity.ok().body(productService.findAllPaged(pageable));
   }
 

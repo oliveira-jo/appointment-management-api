@@ -1,5 +1,6 @@
 package com.devjoliveira.appointmentmanagementapi.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,15 +29,25 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
-  public Page<UserMinDTO> findAllProfessionals(Pageable pageable) {
+  public Page<UserMinDTO> findAllProfessionalsPage(Pageable pageable) {
     Page<User> page = userRepository.findByRole(UserRole.ROLE_PROFESSIONAL, pageable);
     return page.map(UserMinDTO::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<UserMinDTO> findAllCustomers(Pageable pageable) {
+  public Page<UserMinDTO> findAllCustomersPage(Pageable pageable) {
     Page<User> page = userRepository.findByRole(UserRole.ROLE_CUSTOMER, pageable);
     return page.map(UserMinDTO::new);
+  }
+
+  @Transactional(readOnly = true)
+  public List<UserMinDTO> findAllProfessionals() {
+    return userRepository.findByRole(UserRole.ROLE_PROFESSIONAL).stream().map(UserMinDTO::new).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<UserMinDTO> findAllCustomers() {
+    return userRepository.findByRole(UserRole.ROLE_CUSTOMER).stream().map(UserMinDTO::new).toList();
   }
 
   @Transactional(readOnly = true)

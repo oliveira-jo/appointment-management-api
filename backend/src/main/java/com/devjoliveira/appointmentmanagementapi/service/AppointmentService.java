@@ -43,25 +43,6 @@ public class AppointmentService {
   }
 
   @Transactional(readOnly = true)
-  public List<AppointmentDTO> findAppointmentsByProfessionalId(UUID professionalId) {
-    List<Appointment> appointments = appointmentRepository.findByProfessionalId(professionalId);
-    return appointments.stream().map(AppointmentDTO::new).toList();
-  }
-
-  @Transactional(readOnly = true)
-  public List<AppointmentDTO> findAppointmentsByProfessionalIdAndDay(UUID professionalId,
-      LocalDate day) {
-
-    LocalDateTime startOfDay = day.atStartOfDay();
-    LocalDateTime endOfDay = day.atTime(LocalTime.MAX);
-
-    List<Appointment> appointments = appointmentRepository
-        .findByProfessionalIdAndScheduledAtBetween(professionalId, startOfDay, endOfDay);
-
-    return appointments.stream().map(AppointmentDTO::new).toList();
-  }
-
-  @Transactional(readOnly = true)
   public List<AppointmentDTO> findAppointmentsByDay(LocalDate day) {
 
     LocalDateTime startOfDay = day.atStartOfDay();
@@ -117,6 +98,11 @@ public class AppointmentService {
         () -> new ResourceNotFoundException("Professional not found with email: " + professionalEmail));
     Product product = productRepository.findByName(productName).orElseThrow(
         () -> new ResourceNotFoundException("Product not found with name: " + productName));
+
+    // Verify if date is no in the past
+    if (scheduledAt.isBefore(LocalDateTime.now())) {
+      throw new IllegalArgumentException("Date/time cannot be in the past");
+    }
 
     // calculate the end time of the appointment based on the product duration
     LocalDateTime endsAt = scheduledAt.plusSeconds(product.getDurationInSeconds().toSeconds());
