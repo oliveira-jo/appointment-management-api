@@ -2,12 +2,12 @@
 
   <div class="card-body">
 
-    <h4 class="mb-4">New Appointment</h4>
+    <h4 class="mb-4">Novo Agendamento</h4>
 
     <!-- CUSTOMER -->
 
     <div class="mb-3">
-      <label>Customer</label>
+      <label>Cliente</label>
       <select class="form-select" [(ngModel)]="appointment.customerEmail">
         @for (obj of customers; track obj.id) {
         <option [value]="obj.email">
@@ -19,7 +19,7 @@
 
     <!-- PROFESSIONAL -->
     <div class="mb-3">
-      <label>Professional</label>
+      <label>Profissional</label>
       <select class="form-select" [(ngModel)]="appointment.professionalEmail">
         @for (obj of professionals; track obj.id) {
         <option [value]="obj.email">
@@ -31,7 +31,7 @@
 
     <!-- SERVICE -->
     <div class="mb-3">
-      <label>Service</label>
+      <label>Serviço</label>
       <select class="form-select" [(ngModel)]="appointment.productName">
         @for (obj of products; track obj.id) {
         <option [value]="obj.name">
@@ -44,15 +44,20 @@
     <!-- DATE -->
     <div class="mb-3">
       <div class="col">
-        <label>Date</label>
+        <label>Data</label>
         <input type="date" class="form-control" [(ngModel)]="date">
       </div>
+    </div>
+
+    <!-- Hora -->
+    <div class="mb-3">
       <div class="col">
-        <label>Hour</label>
+        <label>Hora</label>
         <input type="time" class="form-control" [(ngModel)]="time">
       </div>
     </div>
-    <button class="btn btn-success" (click)="save()"> Create Appointment </button>
+
+    <button class="btn btn-success" (click)="save()"> Criar Agendamento </button>
 
   </div>
 </div>
