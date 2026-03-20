@@ -13,7 +13,8 @@
               <input type="date" class="form-control" [(ngModel)]="filter.startDate">
             </th>
             <th colspan="3">
-              <button class="btn btn-primary me-2" (click)="search()"> Filtrar </button>
+              <button class="btn btn-primary me-2" [disabled]="filter.startDate == '' " (click)="search()"> Filtrar
+              </button>
             </th>
             <th>
               <button class="btn btn-secondary" (click)="clearFilter()"> Limpar Filtro </button>
