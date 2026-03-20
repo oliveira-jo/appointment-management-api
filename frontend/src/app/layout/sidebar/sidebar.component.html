@@ -1,33 +1,38 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-primary text-white" style="width: 250px; height: 100vh;">
-  <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <span class="fs-4">Admin Panel</span>
+<div class="dark-gradient text-white d-flex flex-column flex-shrink-0 p-3 bg-primary text-white"
+  style="width: 250px; height: 100vh;">
+  <a href="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <span class="fs-4">Painel Admin</span>
   </a>
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a [routerLink]="'/dashboard'" class="nav-link text-white active">
+      <a [routerLink]="'/dashboard'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link text-white">
         <i class="fas fa-chart-line me-2"></i> Dashboard
       </a>
     </li>
     <li>
-      <a [routerLink]="'/appointments'" class="nav-link text-white">
-        <i class="fas fa-file-alt me-2"></i> Agendamento
+      <a [routerLink]="'/appointments'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link text-white">
+        <i class="fas fa-file-alt me-2"></i> Agendamentos
       </a>
     </li>
     <li>
-      <a [routerLink]="'/customers'" class="nav-link text-white">
+      <a [routerLink]="'/customers'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link text-white">
         <i class="fas fa-users me-2"></i> Cliente
       </a>
     </li>
     <li>
-      <a [routerLink]="'/professionals'" class="nav-link text-white">
+      <a [routerLink]="'/professionals'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link text-white">
         <i class="fas fa-user-circle me-2"></i> Profissional
       </a>
     </li>
     <li>
-      <a [routerLink]="'/products'" class="nav-link text-white">
+      <a [routerLink]="'/products'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link text-white">
         <i class="fas fa-cogs me-2"></i> Produto
-        <!-- <i class="fas fa-cogs me-2"></i> Produto -->
       </a>
     </li>
   </ul>

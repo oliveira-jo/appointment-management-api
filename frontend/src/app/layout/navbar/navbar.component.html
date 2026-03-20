@@ -1,21 +1,30 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-  <div class="container-fluid">
-
-    <div class="d-flex ms-auto align-items-center text-white">
-
-      <span class="me-3">
-        @if(email) {
-        Olá, {{ email }}
-        }
-      </span>
-
-      <button class="btn btn-outline-light btn-sm" (click)="logout()">
-        Sair
-      </button>
-
+<nav class="navbar nav-gradient navbar-expand-lg navbar-light bg-body-tertiary shadow-sm py-3">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" [routerLink]="'/dashboard'">Agendador</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-3">
+        <li class="nav-item">
+          <button class="btn btn-outline-dark border-0" (click)="toggleDarkMode()">
+            <i class="fa fa-sun"></i> </button>
+        </li>
+        <li class="nav-item">
+          <span class="me-3">
+            @if(email) {
+            <button class="btn btn-outline-dark border-0" [routerLink]="'/dashboard'">
+              Olá, {{ email }}
+            </button>
+            }
+            @else {
+            <button class="btn btn-outline-dark border-0" [routerLink]="'/login'">
+              Logar
+            </button>
+            }
+          </span>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
+        </li>
+      </ul>
     </div>
-
   </div>
-
 </nav>

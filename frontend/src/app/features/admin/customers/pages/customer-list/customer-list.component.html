@@ -16,7 +16,7 @@
               <button class="btn btn-secondary" (click)="search()"> Buscar </button>
             </th>
             <th class="text-end" colspan="3">
-              <button class="btn btn-primary" data-bs-toggle="modal">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerModal">
                 Novo Cliente
               </button>
             </th>
@@ -63,41 +63,33 @@
       Próximo
     </button>
   </div>
-
-
   <!-- Modal - Customer -->
   <div class="modal fade" id="customerModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
         <div class="modal-header">
           <h5 class="modal-title"> {{ editingId ? 'Edição de Cliente' : 'Novo Cliente' }} </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal">
           </button>
         </div>
-
         <div class="modal-body">
           <form #form="ngForm" (ngSubmit)="save(form)">
             <div class="mb-3">
               <label>Name</label>
               <input type="text" class="form-control" name="name" required [(ngModel)]="customer.name">
             </div>
-
             <div class="mb-3">
               <label>Email</label>
               <input type="email" class="form-control" name="email" required email [(ngModel)]="customer.email">
               <small class="text-danger" *ngIf="form.controls['email']?.invalid && form.controls['email']?.touched">
                 Email inválido
               </small>
-
             </div>
-
             <div class="mb-3">
               <label>Teletone</label>
               <input type="text" class="form-control" name="phone" required placeholder="(51) 99999-9999"
                 [(ngModel)]="customer.phone" (input)="formatPhone()">
             </div>
-
             <button class="btn btn-success w-100" [disabled]="form.invalid">
               Salvar
             </button>
@@ -125,10 +117,8 @@
       </div>
     </div>
   </div>
-
   <!-- Toast Messagens -->
   <div class="toast-container position-fixed top-0 end-0 p-3">
-    <!-- SUCCESS -->
     <div id="successToast" class="toast align-items-center text-bg-success border-0">
       <div class="d-flex">
         <div class="toast-body">
@@ -137,7 +127,6 @@
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
     </div>
-    <!-- ERROR -->
     <div id="errorToast" class="toast align-items-center text-bg-danger border-0 mt-2">
       <div class="d-flex">
         <div class="toast-body">
