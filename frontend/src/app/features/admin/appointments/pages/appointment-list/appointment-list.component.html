@@ -1,110 +1,66 @@
-<div class="container mt-4">
-
-  <!-- Metrics -->
-  <div class="row mb-5">
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <h6 class="text-muted">Agendamentos de Hoje</h6>
-          <h3>{{metrics.todayAppointments}}</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <h6 class="text-muted">Agendamentos da Semana</h6>
-          <h3>{{metrics.weekAppointments}}</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <h6 class="text-muted">Redeita de Hoje</h6>
-          <h3>{{metrics.todayRevenue | currency:'BRL'}}</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card shadow-sm border-0">
-        <div class="card-body">
-          <h6 class="text-muted">Total de Agendamentos</h6>
-          <h3>{{metrics.totalAppointments}}</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- New Appointment -->
-  <h3>Agendamento</h3>
-  <div class="d-flex justify-content-end mb-5">
-    <button class="btn btn-primary" routerLink="/appointments/new">
-      + Novo Agendamento
-    </button>
-  </div>
-
-  <!-- Data Filter -->
-  <h3>Pesquisar Agenda</h3>
+<!-- Container Appointmens -->
+<div class="container-fluid">
+  <!-- Main Appointmens Painel -->
   <div class="card mb-5 shadow-sm border-0">
     <div class="card-body">
-
-      <div class="row">
-
-        <div class="col-md-4">
-          <label>Pesquisar agendamento por dia</label>
-          <input type="date" class="form-control" [(ngModel)]="filter.startDate">
-        </div>
-
-        <div class="col-md-4 d-flex align-items-end">
-          <button class="btn btn-primary me-2" (click)="search()">
-            Filtrar
-          </button>
-
-          <button class="btn btn-secondary" (click)="clearFilter()">
-            Limpar Filtro
-          </button>
-        </div>
-      </div>
+      <table class="table table-striped table-hover table-borderless">
+        <thead>
+          <tr>
+            <th colspan="3">
+              <h3>Pesquisar Agenda</h3>
+            </th>
+            <th colspan="3">
+              <input type="date" class="form-control" [(ngModel)]="filter.startDate">
+            </th>
+            <th colspan="3">
+              <button class="btn btn-primary me-2" (click)="search()"> Filtrar </button>
+            </th>
+            <th>
+              <button class="btn btn-secondary" (click)="clearFilter()"> Limpar Filtro </button>
+            </th>
+            <th class="text-end" colspan="3">
+              <button class="btn btn-primary" routerLink="/appointments/new">
+                + Novo Agendamento
+              </button>
+            </th>
+          </tr>
+        </thead>
+      </table>
     </div>
   </div>
-
   <!-- List Appointment -->
-  <h3>Todos Agendamentos</h3>
-  <table class="table table-striped mt-5">
-    <thead>
-      <tr>
-        <th>Cliente</th>
-        <th>Profissional</th>
-        <th>Serviço</th>
-        <th>Data</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (obj of appointments; track obj.id) {
-      <tr>
-        <td>{{ obj.customerName }}</td>
-        <td>{{ obj.professionalName }}</td>
-        <td>{{ obj.productName }}</td>
-        <td>{{ obj.scheduledAt | date:'dd/MM/yyyy HH:mm'}}</td>
-        <td>{{ obj.status }}</td>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Profissional</th>
+          <th>Serviço</th>
+          <th>Data</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (obj of appointments; track obj.id) {
+        <tr>
+          <td>{{ obj.customerName }}</td>
+          <td>{{ obj.professionalName }}</td>
+          <td>{{ obj.productName }}</td>
+          <td>{{ obj.scheduledAt | date:'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{ obj.status }}</td>
 
-        <td>
-          <button class="btn btn-sm btn-danger" (click)="openDeleteModal(obj.id!)"> Cancelar </button>
-        </td>
-      </tr>
-      } @empty {
-      <tr>
-        <td colspan="5">Nenhum agendamento encontrado</td>
-      </tr>
-      }
-    </tbody>
-  </table>
-
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="openDeleteModal(obj.id!)"> Cancelar </button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="5">Nenhum agendamento encontrado</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
   <!-- Pagination -->
   <div class="d-flex justify-content-center align-items-center gap-3 mt-5">
     <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 0">
@@ -117,7 +73,6 @@
       Próximo
     </button>
   </div>
-
   <!-- Modal - Delete -->
   <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -137,7 +92,6 @@
       </div>
     </div>
   </div>
-
   <!-- Modal - Success -->
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
     <div id="successToast" class="toast align-items-center text-bg-success border-0">

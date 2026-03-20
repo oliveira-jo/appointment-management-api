@@ -1,136 +1,141 @@
-<!-- Main Professionals Painel -->
-<h2 class="mb-4">Profissional</h2>
-
-<div class="d-flex justify-content-between mb-3">
-  <div class="d-flex gap-2">
-    <input type="text" class="form-control" placeholder="Search by email" [(ngModel)]="searchEmail">
-    <button class="btn btn-secondary" (click)="search()"> Buscar </button>
+<!-- Container Professionals -->
+<div class="container-fluid">
+  <!-- Main Professionals Painel -->
+  <div class="card mb-5 shadow-sm border-0">
+    <div class="card-body">
+      <table class="table table-striped table-hover table-borderless">
+        <thead>
+          <tr>
+            <th colspan="3">
+              <h3>Gerenciamento de Profissionais</h3>
+            </th>
+            <th colspan="3">
+              <input type="text" class="form-control" placeholder="Busca por profissional" [(ngModel)]="searchEmail">
+            </th>
+            <th colspan="3">
+              <button class="btn btn-secondary" (click)="search()"> Buscar </button>
+            </th>
+            <th class="text-end" colspan="3">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#professionalModal">
+                Novo Profissional
+              </button>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
   </div>
-
-  <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#professionalModal">
-    Novo Profissional
-  </button>
-</div>
-
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Telefone</th>
-      <th width="150"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    @for (p of professionals; track p.id) {
-    <tr>
-      <td>{{ p.name }}</td>
-      <td>{{ p.email }}</td>
-      <td>{{ p.phone }}</td>
-      <td>
-        <button class="btn btn-sm btn-warning me-2" (click)="change(p.id!)"> Editar </button>
-        <button class="btn btn-sm btn-danger" (click)="openDeleteModal(p.id!)"> Excluir </button>
-      </td>
-    </tr>
-    }
-  </tbody>
-</table>
-
-<!-- Pagination -->
-<div class="d-flex justify-content-center align-items-center gap-3 mt-5">
-  <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 0">
-    Anterior
-  </button>
-  <span class="fw-bold">
-    Página {{ currentPage + 1 }} / {{ page?.totalPages }}
-  </span>
-  <button class="btn btn-primary" (click)="nextPage()" [disabled]="page?.last===true">
-    Próximo
-  </button>
-</div>
-
-<!-- Modal - Professional -->
-<div class="modal fade" id="professionalModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title"> {{ editingId ? 'Edição do Profissional' : 'Novo Profissional' }} </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal">
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <form #form="ngForm" (ngSubmit)="save(form)">
-          <div class="mb-3">
-            <label>Name</label>
-            <input type="text" class="form-control" name="name" required [(ngModel)]="professional.name">
-          </div>
-
-          <div class="mb-3">
-            <label>Email</label>
-            <input type="email" class="form-control" name="email" required email [(ngModel)]="professional.email">
-            <small class="text-danger" *ngIf="form.controls['email']?.invalid && form.controls['email']?.touched">
-              Email inválido
-            </small>
-
-          </div>
-
-          <div class="mb-3">
-            <label>Telefone</label>
-            <input type="text" class="form-control" name="phone" required placeholder="(51) 99999-9999"
-              [(ngModel)]="professional.phone" (input)="formatPhone()">
-          </div>
-
-          <button class="btn btn-success w-100" [disabled]="form.invalid">
-            Salvar
+  <!-- Professionals List -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th width="150"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of professionals; track p.id) {
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>{{ p.email }}</td>
+          <td>{{ p.phone }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" (click)="change(p.id!)"> Editar </button>
+            <button class="btn btn-sm btn-danger" (click)="openDeleteModal(p.id!)"> Excluir </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center align-items-center gap-3 mt-5">
+    <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 0">
+      Anterior
+    </button>
+    <span class="fw-bold">
+      Página {{ currentPage + 1 }} / {{ page?.totalPages }}
+    </span>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="page?.last===true">
+      Próximo
+    </button>
+  </div>
+  <!-- Modal - Professional -->
+  <div class="modal fade" id="professionalModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> {{ editingId ? 'Edição do Profissional' : 'Novo Profissional' }} </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
           </button>
-        </form>
+        </div>
+        <div class="modal-body">
+          <form #form="ngForm" (ngSubmit)="save(form)">
+            <div class="mb-3">
+              <label>Name</label>
+              <input type="text" class="form-control" name="name" required [(ngModel)]="professional.name">
+            </div>
+            <div class="mb-3">
+              <label>Email</label>
+              <input type="email" class="form-control" name="email" required email [(ngModel)]="professional.email">
+              <small class="text-danger" *ngIf="form.controls['email']?.invalid && form.controls['email']?.touched">
+                Email inválido
+              </small>
+            </div>
+            <div class="mb-3">
+              <label>Telefone</label>
+              <input type="text" class="form-control" name="phone" required placeholder="(51) 99999-9999"
+                [(ngModel)]="professional.phone" (input)="formatPhone()">
+            </div>
+            <button class="btn btn-success w-100" [disabled]="form.invalid">
+              Salvar
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-
-</div>
-
-<!-- Modal - Delete -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Excluir Profissional</h5>
-        <button class="btn-close" data-bs-dismiss="modal">
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Você tem certeza que quer excluir este profissional?</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
-        <button class="btn btn-danger" (click)="delete()"> Excluir </button>
+  <!-- Modal - Delete -->
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Excluir Profissional</h5>
+          <button class="btn-close" data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Você tem certeza que quer excluir este profissional?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
+          <button class="btn btn-danger" (click)="delete()"> Excluir </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- Toast Messagens -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-  <!-- SUCCESS -->
-  <div id="successToast" class="toast align-items-center text-bg-success border-0">
-    <div class="d-flex">
-      <div class="toast-body">
-        {{ successMessage }}
+  <!-- Toast Messagens -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <!-- SUCCESS -->
+    <div id="successToast" class="toast align-items-center text-bg-success border-0">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ successMessage }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
     </div>
-  </div>
-  <!-- ERROR -->
-  <div id="errorToast" class="toast align-items-center text-bg-danger border-0 mt-2">
-    <div class="d-flex">
-      <div class="toast-body">
-        {{ errorMessage }}
+    <!-- ERROR -->
+    <div id="errorToast" class="toast align-items-center text-bg-danger border-0 mt-2">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ errorMessage }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
     </div>
   </div>
 </div>
