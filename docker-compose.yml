@@ -17,7 +17,7 @@ services:
 
   backend:
     build: ./backend
-    container_name: spring-api
+    container_name: appointment-api
     restart: always
     ports:
       - "8080:8080"
@@ -34,6 +34,15 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+  frontend:
+    build: ./frontend
+    container_name: appointment-web
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

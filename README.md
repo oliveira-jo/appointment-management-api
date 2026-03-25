@@ -198,25 +198,232 @@ body.dark-mode .table {
   npm install
   ng serve
 ````
-3. Running with Docker
-Create a docker-compose.yml:
-````
-version: '3.8'
 
+# Docker Setup – Full Stack (PostgreSQL + Spring Boot + Angular)
+
+Este projeto utiliza Docker para orquestrar toda a aplicação, incluindo:
+
+- PostgreSQL (Banco de dados)
+- Spring Boot (Backend)
+- Angular (Frontend)
+
+
+# Estrutura do Projeto
+```
+appointment-management-api/
+├── backend/
+│   ├── Dockerfile
+│   └── target/app.jar
+├── frontend/
+│   ├── Dockerfile
+│   └── ...
+├── docker-compose.yml
+├── .env
+```
+
+
+# Variáveis de Ambiente
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+POSTGRES_DB=appointment_db
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin123
+
+POSTGRES_PORT=5433
+POSTGRES_INTERNAL_PORT=5432
+
+SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/appointment_db
+SPRING_DATASOURCE_USERNAME=admin
+SPRING_DATASOURCE_PASSWORD=admin123
+```
+
+
+# PostgreSQL (Banco de Dados)
+- Porta externa: `${POSTGRES_PORT}` (ex: 5433)
+- Porta interna: `5432`
+- Dados persistidos via volume Docker
+
+
+# Backend (Spring Boot)
+
+## Dockerfile
+
+```dockerfile
+FROM eclipse-temurin:21-jdk-jammy
+
+WORKDIR /app
+
+COPY target/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+## Build da aplicação
+Antes de subir o container:
+
+```bash
+cd backend
+mvn clean package
+```
+
+
+# Frontend (Angular)
+
+## Dockerfile
+
+```dockerfile
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+FROM nginx:alpine
+COPY --from=build /app/dist/<nome-do-projeto> /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+> ATENTION: Substitua `<nome-do-projeto>` pelo nome correto gerado na pasta `dist`.
+
+
+# Comunicação entre serviços
+Dentro do Docker:
+
+| Serviço    | Host       |
+| ---------- | ---------- |
+| PostgreSQL | `postgres` |
+| Backend    | `backend`  |
+| Frontend   | `frontend` |
+
+
+# Configuração da API no Angular
+> ATENTION
+Dentro do frontend, use:
+
+```ts
+apiUrl = 'http://backend:8080';
+```
+
+
+# docker-compose.yml
+
+```yaml
 services:
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_INTERNAL_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   backend:
     build: ./backend
+    container_name: spring-api
+    restart: always
     ports:
       - "8080:8080"
-    container_name: appointment-backend
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
 
   frontend:
     build: ./frontend
+    container_name: angular-app
+    restart: always
     ports:
       - "4200:80"
-    container_name: appointment-frontend
-````
-  - Run:
-````
-docker-compose up --build
-````
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+```
+
+
+# Como Executar o Projeto
+## 1. Build do backend
+```bash
+cd backend
+mvn clean package
+cd ..
+```
+
+
+## 2. Subir os containers
+```bash
+docker compose up --build -d
+```
+
+
+## 3. Acessar os serviços
+* Frontend: http://localhost:4200
+* Backend: http://localhost:8080
+* PostgreSQL: localhost:${POSTGRES_PORT}
+
+
+# Comandos Úteis
+## Ver containers rodando
+```bash
+docker ps
+```
+
+## Parar containers
+```bash
+docker compose down
+```
+
+## Ver logs
+```bash
+docker compose logs -f
+```
+
+# Problemas Comuns
+##  *Erro* de conexão com banco
+
+* Verifique se o backend está usando:
+  ```
+  postgres:5432
+  ```
+
+##  *Erro* de versão do Java
+
+* Certifique-se de usar Java 21 no Dockerfile
+
+## *Variáveis* `.env` não carregando
+
+* O arquivo `.env` deve estar na raiz do projeto
+
+## *CORS* no backend
+
+* Configure CORS no Spring Boot
+
+
+# Melhorias Futuras
+* Adicionar pgAdmin
+* Configurar Nginx como gateway
+* Implementar Flyway/Liquibase
+* Criar profiles (dev/prod)
+* Deploy em nuvem (AWS, Railway, VPS)
+
+
+# Resultado Final
+Ambiente completo com:
+- Banco de dados persistente
+- Backend containerizado
+- Frontend servido via Nginx
+- Comunicação interna via rede Docker
+
+
+
