@@ -46,55 +46,78 @@ public class NotificationService {
     for (Appointment appointment : tomorrowAppointments) {
 
       try {
-
         // Format phone number to E.164 format
         String formattedPhone = PhoneUtils.formatToE164(appointment.getCustomer().getPhone());
 
-        String variables = String.format("""
-            {
-              "1": "%s",
-              "2": "%s",
-              "3": "%s",
-            }
-            """,
-            appointment.getCustomer().getName(),
-            appointment.getScheduledAt().toLocalDate(),
-            appointment.getScheduledAt().toLocalTime());
+        boolean sent = tryWhatsApp(appointment, formattedPhone) || trySms(appointment, formattedPhone)
+            || tryEmail(appointment);
 
-        try {
-          whatsAppService.send(formattedPhone, TEMPLATE_SID, variables);
-          return;
-        } catch (Exception e) {
-          log.warn("WhatsApp failed, trying SMS", e);
+        if (sent) {
+          markAsSent(appointment);
+        } else {
+          log.error("All channels failed for appointment {}", appointment.getId());
         }
-
-        // Fallback SMS
-        try {
-          smsService.send(formattedPhone, "Seu agendamento é amanhã às " +
-              appointment.getScheduledAt().toLocalTime());
-          return;
-        } catch (Exception e) {
-          log.warn("SMS failed, trying email", e);
-        }
-
-        // Fallback para email
-        try {
-          emailService.send(appointment.getCustomer().getEmail(), "* Lembrete *",
-              "Seu agendamento é amanhã às " + appointment.getScheduledAt().toLocalTime());
-
-        } catch (Exception e) {
-          log.warn("Email failed...", e);
-        }
-
-        markAsSent(appointment);
 
       } catch (Exception e) {
-        log.warn("Error sending message: {}", e.getMessage());
+        log.error("Unexpected error for appointment {}", appointment.getId(), e);
 
       }
 
     }
 
+  }
+
+  private boolean tryWhatsApp(Appointment appointment, String phone) {
+    try {
+      String variables = String.format("""
+          {
+            "1": "%s",
+            "2": "%s",
+            "3": "%s"
+          }
+          """,
+          appointment.getCustomer().getName(),
+          appointment.getScheduledAt().toLocalDate(),
+          appointment.getScheduledAt().toLocalTime());
+
+      whatsAppService.send(phone, TEMPLATE_SID, variables);
+      return true;
+
+    } catch (Exception e) {
+      log.warn("WhatsApp failed for {}: {}", appointment.getId(), e.getMessage());
+      return false;
+    }
+  }
+
+  private boolean trySms(Appointment appointment, String phone) {
+    try {
+      smsService.send(phone,
+          "Seu agendamento é amanhã às " +
+              appointment.getScheduledAt().toLocalTime()
+              + ". Responda para reagendar se necessário. Agradecemos a preferência!");
+
+      return true;
+
+    } catch (Exception e) {
+      log.warn("SMS failed for {}: {}", appointment.getId(), e.getMessage());
+      return false;
+    }
+  }
+
+  private boolean tryEmail(Appointment appointment) {
+    try {
+      emailService.send(
+          appointment.getCustomer().getEmail(),
+          "* Lembrete *",
+          "Seu agendamento é amanhã às " +
+              appointment.getScheduledAt().toLocalTime()
+              + ". Responda para reagendar se necessário. Agradecemos a preferência!");
+      return true;
+
+    } catch (Exception e) {
+      log.warn("Email failed for {}: {}", appointment.getId(), e.getMessage());
+      return false;
+    }
   }
 
   @Transactional
