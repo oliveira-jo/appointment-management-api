@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
@@ -34,6 +35,8 @@ public class Appointment {
   private Product product;
 
   private LocalDateTime scheduledAt;
+
+  private Boolean reminderSent;
 
   @Enumerated(EnumType.STRING)
   private AppointmentStatus appointmentStatus;
@@ -103,6 +106,14 @@ public class Appointment {
     this.scheduledAt = scheduledAt;
   }
 
+  public Boolean getReminderSent() {
+    return reminderSent;
+  }
+
+  public void setReminderSent(Boolean reminderSent) {
+    this.reminderSent = reminderSent;
+  }
+
   public AppointmentStatus getAppointmentStatus() {
     return appointmentStatus;
   }
@@ -133,6 +144,11 @@ public class Appointment {
 
   public void setEndsAt(LocalDateTime endsAt) {
     this.endsAt = endsAt;
+  }
+
+  @PrePersist
+  public void prePersist() {
+    this.reminderSent = false;
   }
 
   @PreUpdate

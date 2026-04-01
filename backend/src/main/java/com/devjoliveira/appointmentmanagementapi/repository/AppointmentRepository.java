@@ -13,6 +13,8 @@ import com.devjoliveira.appointmentmanagementapi.domain.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
+    List<Appointment> findByScheduledAtBetweenAndReminderSentFalse(LocalDateTime startOfDay, LocalDateTime endOfDay);
+
     List<Appointment> findByScheduledAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
     @Query("""
