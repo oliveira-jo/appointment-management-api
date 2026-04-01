@@ -24,7 +24,26 @@ Responda para reagendar se necessário.
 
 * Isso aprova rápido
 
-# 2. TEMPLATE
+# 2. TWILIO CONFIG
+````
+@Configuration
+public class TwilioConfig {
+
+  @Value("${env.TWILIO_ACCOUNT_SID:}")
+  private String accountSid;
+
+  @Value("${env.TWILIO_AUTH_TOKEN:}")
+  private String authToken;
+
+  @PostConstruct
+  public void init() {
+    Twilio.init(accountSid, authToken);
+  }
+}
+````
+in 
+
+# 3. TEMPLATE CONFIG  
 ````java
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
