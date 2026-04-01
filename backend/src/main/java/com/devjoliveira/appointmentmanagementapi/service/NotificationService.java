@@ -24,10 +24,15 @@ public class NotificationService {
 
   private final AppointmentRepository appointmentRepository;
   private final WhatsAppService whatsAppService;
+  private final SmsService smsService;
+  private final EmailService emailService;
 
-  public NotificationService(AppointmentRepository appointmentRepository, WhatsAppService whatsAppService) {
+  public NotificationService(AppointmentRepository appointmentRepository, WhatsAppService whatsAppService,
+      SmsService smsService, EmailService emailService) {
     this.appointmentRepository = appointmentRepository;
     this.whatsAppService = whatsAppService;
+    this.smsService = smsService;
+    this.emailService = emailService;
   }
 
   public void sendReminderOneDayBefore() {
@@ -57,23 +62,25 @@ public class NotificationService {
             appointment.getScheduledAt().toLocalTime());
 
         try {
-          whatsAppService.sendTemplate(formattedPhone, TEMPLATE_SID, variables);
+          whatsAppService.send(formattedPhone, TEMPLATE_SID, variables);
           return;
         } catch (Exception e) {
-          log.warn("WhatsApp failed, trying SMS");
+          log.warn("WhatsApp failed, trying SMS", e);
         }
 
-        // Fallback para SMS
-        // try {
-        // smsService.send(formattedPhone, "Seu agendamento é amanhã às " +
-        // appointment.getScheduledAt().toLocalTime());
-        // return;
-        // } catch (Exception e) {
-        // log.warn("SMS failed, trying email");
-        // }
+        // Fallback SMS
+        try {
+          smsService.send(formattedPhone, "Seu agendamento é amanhã às " +
+              appointment.getScheduledAt().toLocalTime());
+          return;
+        } catch (Exception e) {
+          log.warn("SMS failed, trying email", e);
+        }
 
         // Fallback para email
-        // emailService.send(appointment.getCustomer().getEmail(), "Reminder", "...");
+        // emailService.send(appointment.getCustomer().getEmail(), "Seu agendamento é
+        // amanhã às " +
+        // appointment.getScheduledAt().toLocalTime());
 
         markAsSent(appointment);
 

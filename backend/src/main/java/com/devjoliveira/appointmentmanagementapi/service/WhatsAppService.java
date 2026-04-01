@@ -12,7 +12,9 @@ public class WhatsAppService {
   @Value("${env.TWILIO_WHATSAPP_NUMBER:}")
   private String from;
 
-  public Message sendTemplate(String to, String templateSid, String variablesJson) {
+  public Message send(String to, String templateSid, String variablesJson) {
+
+    System.out.println("Sending WhatsApp...");
 
     return Message.creator(
         new PhoneNumber("whatsapp:" + to),
