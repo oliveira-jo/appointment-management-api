@@ -1,16 +1,29 @@
 package com.devjoliveira.appointmentmanagementapi.service;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
-import com.twilio.rest.api.v2010.account.Message;
 
 @Service
 public class EmailService {
 
-  public Message send(String to, String message) {
-    System.out.println("Sending Email...");
-    // JavaMailSender aqui
-    return null;
+  private final JavaMailSender mailSender;
+
+  public EmailService(JavaMailSender mailSender) {
+    this.mailSender = mailSender;
   }
 
+  public void send(String to, String subject, String message) {
+    try {
+      SimpleMailMessage mail = new SimpleMailMessage();
+      mail.setTo(to);
+      mail.setSubject(subject);
+      mail.setText(message);
+
+      mailSender.send(mail);
+
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to send email", e);
+    }
+  }
 }

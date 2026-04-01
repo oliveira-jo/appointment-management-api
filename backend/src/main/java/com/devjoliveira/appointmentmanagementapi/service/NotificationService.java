@@ -78,9 +78,13 @@ public class NotificationService {
         }
 
         // Fallback para email
-        // emailService.send(appointment.getCustomer().getEmail(), "Seu agendamento é
-        // amanhã às " +
-        // appointment.getScheduledAt().toLocalTime());
+        try {
+          emailService.send(appointment.getCustomer().getEmail(), "* Lembrete *",
+              "Seu agendamento é amanhã às " + appointment.getScheduledAt().toLocalTime());
+
+        } catch (Exception e) {
+          log.warn("Email failed...", e);
+        }
 
         markAsSent(appointment);
 
